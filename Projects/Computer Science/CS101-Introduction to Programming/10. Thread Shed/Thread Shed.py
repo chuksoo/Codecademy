@@ -127,6 +127,8 @@ green&white;,;09/15/17,   Gail Phelps   ;,;$30.52
 ;,;   $22.66   ;,; green&white&blue;,;09/15/17"""
 
 #------------------------------------------------
+# Break up `daily_sales` in easy to understand lists `customers`, `sales`, and `threads_sold`.
+
 # replace all the instances of ;,; in daily_sales 
 daily_sales_replaced = daily_sales.replace(';,;', '-')
 #print(daily_sales_replaced)
@@ -162,7 +164,7 @@ for daily_sales in transactions_clean:
   transaction_date.append(daily_sales[3])
 #print(threads_sold)
 
-# determine the total value of the days sales
+# Determine the total value of the days sales.
 total_sales = 0
 for sale in sales:
   total_sales += float(sale.strip("$"))
