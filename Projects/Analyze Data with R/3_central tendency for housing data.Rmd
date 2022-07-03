@@ -110,4 +110,3 @@ if(exists("queens_median")) {
   print("The mode price in Queens is not yet defined.")
 } 
 ```
-
