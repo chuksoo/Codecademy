@@ -162,13 +162,15 @@ for daily_sales in transactions_clean:
   sales.append(daily_sales[1])
   threads_sold.append(daily_sales[2])
   transaction_date.append(daily_sales[3])
+#print(customers)  
 #print(threads_sold)
+print(sales)
 
 # Determine the total value of the days sales.
 total_sales = 0
 for sale in sales:
   total_sales += float(sale.strip("$"))
-#print(total_sales)
+
 
 # How much thread of any specific color was sold?
 thread_sold_split = []
