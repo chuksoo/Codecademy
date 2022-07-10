@@ -27,7 +27,7 @@ class Student:
          
     # add_grade() method
     def add_grade(self, grade):
-        if type(grade) == Grade:
+        if type(self.grade) == Grade:
             self.grades.append(grade)
         else:
             return
