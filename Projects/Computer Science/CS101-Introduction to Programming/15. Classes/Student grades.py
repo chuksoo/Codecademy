@@ -43,5 +43,9 @@ class Student:
 roger = Student("Roger van der Weyden",10)    
 sandro = Student("Sandro Botticelli",12)
 pieter = Student("Pieter Bruegel the Elder",8)
-x = Grade(65)    
-print(pieter.add_grade(x))
+
+# check grade
+x = Grade(85)    
+#print(pieter.add_grade(x))
+print(roger.name)
+#print(roger.grade)
