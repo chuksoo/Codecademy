@@ -11,7 +11,7 @@
 
 
 
-<title>Calculating Population Change Over Time with R</title>
+<title>Life Expectancy By Country</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1499,6 +1499,8 @@ window.initializeCodeFolding = function(show) {
   // select all R code blocks
   var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
   rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
 
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -1760,8 +1762,8 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Calculating Population Change Over Time
-with R</h1>
+<h1 class="title toc-ignore">Life Expectancy By Country</h1>
+<h4 class="date">07 August, 2022</h4>
 
 </div>
 
@@ -1769,51 +1771,101 @@ with R</h1>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2FubnVhbF9ncm93dGggPC0gZnVuY3Rpb24oeWVhcl9vbmUseWVhcl90d28scG9wX3kxLCBwb3BfeTIsY2l0eSkge1xuICBhbm51YWxfZ3Jvd3RoIDwtICgoKHBvcF95MiAtIHBvcF95MSkgLyBwb3BfeTEpICogMTAwKSAvICh5ZWFyX3R3by15ZWFyX29uZSlcbiAgbWVzc2FnZSA8LSBwYXN0ZShcIkZyb21cIiwgeWVhcl9vbmUsIFwidG9cIiwgeWVhcl90d28sIFwidGhlIHBvcHVsYXRpb24gb2ZcIiwgY2l0eSwgXCJncmV3IGJ5IGFwcHJveGltYXRlbHlcIiwgYW5udWFsX2dyb3d0aCwgXCIlIGVhY2ggeWVhci5cIilcbiAgcHJpbnQobWVzc2FnZSlcbiAgcmV0dXJuKGFubnVhbF9ncm93dGgpXG59XG4jIFdyaXRlIHlvdXIgY29kZSBzdGFydGluZyBoZXJlOlxueWVhcl9vbmUgPSAxOTI3XG55ZWFyX3R3byA9IDE5NTBcbmNpdHlfbmFtZSA8LSBcIklzdGFuYnVsLCBUdXJrZXlcIlxucG9wX3llYXJfb25lIDwtIDY5MTAwMFxucG9wX3llYXJfdHdvIDwtIDk4MzAwMFxucG9wX2NoYW5nZSA8LSBwb3BfeWVhcl90d28gLSBwb3BfeWVhcl9vbmVcbnByaW50KHBvcF9jaGFuZ2UpXG5gYGAifQ== -->
-<pre class="r"><code>calculate_annual_growth &lt;- function(year_one,year_two,pop_y1, pop_y2,city) {
-  annual_growth &lt;- (((pop_y2 - pop_y1) / pop_y1) * 100) / (year_two-year_one)
-  message &lt;- paste(&quot;From&quot;, year_one, &quot;to&quot;, year_two, &quot;the population of&quot;, city, &quot;grew by approximately&quot;, annual_growth, &quot;% each year.&quot;)
-  print(message)
-  return(annual_growth)
-}
-# Write your code starting here:
-year_one = 1927
-year_two = 1950
-city_name &lt;- &quot;Istanbul, Turkey&quot;
-pop_year_one &lt;- 691000
-pop_year_two &lt;- 983000
-pop_change &lt;- pop_year_two - pop_year_one
-print(pop_change)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIHBhY2thZ2VzXG5saWJyYXJ5KGdncGxvdDIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShkcGx5cilcbmBgYCJ9 -->
+<pre class="r"><code># load packages
+library(ggplot2)
+library(readr)
+library(dplyr)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI5MjAwMFxuIn0= -->
-<pre><code>[1] 292000</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjYWxjdWxhdGUgdGhlIGFubnVhbCBwZXJjZW50YWdlIGdyb3d0aCByYXRlXG5wZXJjZW50YWdlX2dyIDwtICgocG9wX3llYXJfdHdvIC0gcG9wX3llYXJfb25lKSAvIHBvcF95ZWFyX29uZSkgKiAxMDBcbnByaW50KHBlcmNlbnRhZ2VfZ3IpXG5gYGAifQ== -->
-<pre class="r"><code># calculate the annual percentage growth rate
-percentage_gr &lt;- ((pop_year_two - pop_year_one) / pop_year_one) * 100
-print(percentage_gr)</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbXBvcnQgYW5kIGluc3BlY3QgZGF0YVxuZGF0YSA8LSByZWFkX2NzdihcImNvdW50cnlfZGF0YS5jc3ZcIilcbmhlYWQoZGF0YSlcbmBgYCJ9 -->
+<pre class="r"><code># import and inspect data
+data &lt;- read_csv(&quot;country_data.csv&quot;)
+head(data)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQyLjI1NzZcbiJ9 -->
-<pre><code>[1] 42.2576</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjYWxjdWxhdGUgdGhlIGFubnVhbCBwZXJjZW50YWdlIGdyb3d0aFxuYW5udWFsX2dyIDwtIHBlcmNlbnRhZ2VfZ3IgLyAoeWVhcl90d28gLSB5ZWFyX29uZSlcbnByaW50KGFubnVhbF9ncilcbmBgYCJ9 -->
-<pre class="r"><code># calculate the annual percentage growth
-annual_gr &lt;- percentage_gr / (year_two - year_one)
-print(annual_gr)</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsaWZlIGV4cGVjdGFuY3lcbmxpZmVfZXhwZWN0YW5jeSA8LSBkYXRhICU+JVxuICBwdWxsKGxpZmVfZXhwZWN0YW5jeSlcbiNwcmludChsaWZlX2V4cGVjdGFuY3kpXG5cblxuIyBsaWZlIGV4cGVjdGFuY3kgcXVhcnRpbGVzXG5saWZlX2V4cGVjdGFuY3lfcXVhcnRpbGVzIDwtIHF1YW50aWxlKGxpZmVfZXhwZWN0YW5jeSwgYygwLjI1LCAwLjUsIDAuNzUpKVxucHJpbnQobGlmZV9leHBlY3RhbmN5X3F1YXJ0aWxlcylcbmBgYCJ9 -->
+<pre class="r"><code># life expectancy
+life_expectancy &lt;- data %&gt;%
+  pull(life_expectancy)
+#print(life_expectancy)
+
+
+# life expectancy quartiles
+life_expectancy_quartiles &lt;- quantile(life_expectancy, c(0.25, 0.5, 0.75))
+print(life_expectancy_quartiles)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuODM3Mjg3XG4ifQ== -->
-<pre><code>[1] 1.837287</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2FubnVhbF9ncm93dGgoMTkyNywgMTk1MCwgNjkxMDAwLCA5ODMwMDAsIGNpdHlfbmFtZSlcbmBgYCJ9 -->
-<pre class="r"><code>calculate_annual_growth(1927, 1950, 691000, 983000, city_name)</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwbG90IGhpc3RvZ3JhbSBvZiBsaWZlIGV4cGVjdGFuY3lcbmhpc3QobGlmZV9leHBlY3RhbmN5KVxuYGBgIn0= -->
+<pre class="r"><code># plot histogram of life expectancy
+hist(life_expectancy)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRnJvbSAxOTI3IHRvIDE5NTAgdGhlIHBvcHVsYXRpb24gb2YgSXN0YW5idWwsIFR1cmtleSBncmV3IGJ5IGFwcHJveGltYXRlbHkgMS44MzcyODY4NTU4NDg0OSAlIGVhY2ggeWVhci5cIlxuWzFdIDEuODM3Mjg3XG4ifQ== -->
-<pre><code>[1] &quot;From 1927 to 1950 the population of Istanbul, Turkey grew by approximately 1.83728685584849 % each year.&quot;
-[1] 1.837287</code></pre>
-<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBnZHBcbmdkcCA8LSBkYXRhICU+JSBcbiAgICAgICAgICBwdWxsKEdEUClcbnByaW50KGhlYWQoZ2RwLCAxMCkpXG5cbiMgbWVkaWFuIGdkcFxubWVkaWFuX2dkcCA8LSBxdWFudGlsZShnZHAsIDAuNSlcbnByaW50KG1lZGlhbl9nZHApXG5gYGAifQ== -->
+<pre class="r"><code># gdp
+gdp &lt;- data %&gt;% 
+          pull(GDP)
+print(head(gdp, 10))
+
+# median gdp
+median_gdp &lt;- quantile(gdp, 0.5)
+print(median_gdp)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb3cgZ2RwXG5sb3dfZ2RwIDwtIGRhdGEgJT4lXG4gIGZpbHRlcihHRFAgPD0gbWVkaWFuX2dkcCkgJT4lXG4gIHB1bGwobGlmZV9leHBlY3RhbmN5KVxuXG5cblxuXG4jIGhpZ2ggZ2RwXG5oaWdoX2dkcCA8LSBkYXRhICU+JVxuICBmaWx0ZXIoR0RQID49IG1lZGlhbl9nZHApICU+JVxuICBwdWxsKGxpZmVfZXhwZWN0YW5jeSlcblxuXG5cbiMgbG93IGdkcCBxdWFydGlsZXNcbmxvd19nZHBfcXVhcnRpbGVzIDwtIHF1YW50aWxlKGxvd19nZHAsIGMoMC4yNSwgMC41LCAwLjc1KSlcbnByaW50KGxvd19nZHBfcXVhcnRpbGVzKVxuXG4jIGhpZ2ggZ2RwIHF1YXJ0aWxlc1xuaGlnaF9nZHBfcXVhcnRpbGVzIDwtIHF1YW50aWxlKGhpZ2hfZ2RwLCBjKDAuMjUsIDAuNSwgMC43NSkpXG5wcmludChoaWdoX2dkcF9xdWFydGlsZXMpXG5cbmBgYCJ9 -->
+<pre class="r"><code># low gdp
+low_gdp &lt;- data %&gt;%
+  filter(GDP &lt;= median_gdp) %&gt;%
+  pull(life_expectancy)
+
+
+
+
+# high gdp
+high_gdp &lt;- data %&gt;%
+  filter(GDP &gt;= median_gdp) %&gt;%
+  pull(life_expectancy)
+
+
+
+# low gdp quartiles
+low_gdp_quartiles &lt;- quantile(low_gdp, c(0.25, 0.5, 0.75))
+print(low_gdp_quartiles)
+
+# high gdp quartiles
+high_gdp_quartiles &lt;- quantile(high_gdp, c(0.25, 0.5, 0.75))
+print(high_gdp_quartiles)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwbG90IGxvdyBnZHAgaGlzdG9ncmFtXG5oaXN0KGxvd19nZHAsY29sPSdyZWQnKVxuXG4jIHBsb3QgaGlnaCBnZHAgaGlzdG9ncmFtXG5oaXN0KGhpZ2hfZ2RwLGNvbD0nYmx1ZScpXG5gYGAifQ== -->
+<pre class="r"><code># plot low gdp histogram
+hist(low_gdp,col=&#39;red&#39;)
+
+# plot high gdp histogram
+hist(high_gdp,col=&#39;blue&#39;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNhbGN1bGF0aW5nIFBvcHVsYXRpb24gQ2hhbmdlIE92ZXIgVGltZSB3aXRoIFIiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KYGBge3IgZXJyb3I9VFJVRX0NCmNhbGN1bGF0ZV9hbm51YWxfZ3Jvd3RoIDwtIGZ1bmN0aW9uKHllYXJfb25lLHllYXJfdHdvLHBvcF95MSwgcG9wX3kyLGNpdHkpIHsNCiAgYW5udWFsX2dyb3d0aCA8LSAoKChwb3BfeTIgLSBwb3BfeTEpIC8gcG9wX3kxKSAqIDEwMCkgLyAoeWVhcl90d28teWVhcl9vbmUpDQogIG1lc3NhZ2UgPC0gcGFzdGUoIkZyb20iLCB5ZWFyX29uZSwgInRvIiwgeWVhcl90d28sICJ0aGUgcG9wdWxhdGlvbiBvZiIsIGNpdHksICJncmV3IGJ5IGFwcHJveGltYXRlbHkiLCBhbm51YWxfZ3Jvd3RoLCAiJSBlYWNoIHllYXIuIikNCiAgcHJpbnQobWVzc2FnZSkNCiAgcmV0dXJuKGFubnVhbF9ncm93dGgpDQp9DQojIFdyaXRlIHlvdXIgY29kZSBzdGFydGluZyBoZXJlOg0KeWVhcl9vbmUgPSAxOTI3DQp5ZWFyX3R3byA9IDE5NTANCmNpdHlfbmFtZSA8LSAiSXN0YW5idWwsIFR1cmtleSINCnBvcF95ZWFyX29uZSA8LSA2OTEwMDANCnBvcF95ZWFyX3R3byA8LSA5ODMwMDANCnBvcF9jaGFuZ2UgPC0gcG9wX3llYXJfdHdvIC0gcG9wX3llYXJfb25lDQpwcmludChwb3BfY2hhbmdlKQ0KDQojIGNhbGN1bGF0ZSB0aGUgYW5udWFsIHBlcmNlbnRhZ2UgZ3Jvd3RoIHJhdGUNCnBlcmNlbnRhZ2VfZ3IgPC0gKChwb3BfeWVhcl90d28gLSBwb3BfeWVhcl9vbmUpIC8gcG9wX3llYXJfb25lKSAqIDEwMA0KcHJpbnQocGVyY2VudGFnZV9ncikNCg0KIyBjYWxjdWxhdGUgdGhlIGFubnVhbCBwZXJjZW50YWdlIGdyb3d0aA0KYW5udWFsX2dyIDwtIHBlcmNlbnRhZ2VfZ3IgLyAoeWVhcl90d28gLSB5ZWFyX29uZSkNCnByaW50KGFubnVhbF9ncikNCg0KY2FsY3VsYXRlX2FubnVhbF9ncm93dGgoMTkyNywgMTk1MCwgNjkxMDAwLCA5ODMwMDAsIGNpdHlfbmFtZSkNCmBgYA==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxpZmUgRXhwZWN0YW5jeSBCeSBDb3VudHJ5Ig0Kb3V0cHV0OiBodG1sX25vdGVib29rDQpkYXRlOiAiYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiwgJVknKWAiDQotLS0NCg0KYGBge3IgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRSwgZXJyb3I9VFJVRX0NCiMgbG9hZCBwYWNrYWdlcw0KbGlicmFyeShnZ3Bsb3QyKQ0KbGlicmFyeShyZWFkcikNCmxpYnJhcnkoZHBseXIpDQpgYGANCg0KYGBge3IgZXJyb3I9VFJVRX0NCiMgaW1wb3J0IGFuZCBpbnNwZWN0IGRhdGENCmRhdGEgPC0gcmVhZF9jc3YoImNvdW50cnlfZGF0YS5jc3YiKQ0KaGVhZChkYXRhKQ0KYGBgDQoNCmBgYHtyIGVycm9yPVRSVUV9DQojIGxpZmUgZXhwZWN0YW5jeQ0KbGlmZV9leHBlY3RhbmN5IDwtIGRhdGEgJT4lDQogIHB1bGwobGlmZV9leHBlY3RhbmN5KQ0KI3ByaW50KGxpZmVfZXhwZWN0YW5jeSkNCg0KDQojIGxpZmUgZXhwZWN0YW5jeSBxdWFydGlsZXMNCmxpZmVfZXhwZWN0YW5jeV9xdWFydGlsZXMgPC0gcXVhbnRpbGUobGlmZV9leHBlY3RhbmN5LCBjKDAuMjUsIDAuNSwgMC43NSkpDQpwcmludChsaWZlX2V4cGVjdGFuY3lfcXVhcnRpbGVzKQ0KYGBgDQoNCmBgYHtyIGVycm9yPVRSVUV9DQojIHBsb3QgaGlzdG9ncmFtIG9mIGxpZmUgZXhwZWN0YW5jeQ0KaGlzdChsaWZlX2V4cGVjdGFuY3kpDQpgYGANCg0KYGBge3IgZXJyb3I9VFJVRX0NCiMgZ2RwDQpnZHAgPC0gZGF0YSAlPiUgDQogICAgICAgICAgcHVsbChHRFApDQpwcmludChoZWFkKGdkcCwgMTApKQ0KDQojIG1lZGlhbiBnZHANCm1lZGlhbl9nZHAgPC0gcXVhbnRpbGUoZ2RwLCAwLjUpDQpwcmludChtZWRpYW5fZ2RwKQ0KYGBgDQoNCmBgYHtyIGVycm9yPVRSVUV9DQojIGxvdyBnZHANCmxvd19nZHAgPC0gZGF0YSAlPiUNCiAgZmlsdGVyKEdEUCA8PSBtZWRpYW5fZ2RwKSAlPiUNCiAgcHVsbChsaWZlX2V4cGVjdGFuY3kpDQoNCg0KDQoNCiMgaGlnaCBnZHANCmhpZ2hfZ2RwIDwtIGRhdGEgJT4lDQogIGZpbHRlcihHRFAgPj0gbWVkaWFuX2dkcCkgJT4lDQogIHB1bGwobGlmZV9leHBlY3RhbmN5KQ0KDQoNCg0KIyBsb3cgZ2RwIHF1YXJ0aWxlcw0KbG93X2dkcF9xdWFydGlsZXMgPC0gcXVhbnRpbGUobG93X2dkcCwgYygwLjI1LCAwLjUsIDAuNzUpKQ0KcHJpbnQobG93X2dkcF9xdWFydGlsZXMpDQoNCiMgaGlnaCBnZHAgcXVhcnRpbGVzDQpoaWdoX2dkcF9xdWFydGlsZXMgPC0gcXVhbnRpbGUoaGlnaF9nZHAsIGMoMC4yNSwgMC41LCAwLjc1KSkNCnByaW50KGhpZ2hfZ2RwX3F1YXJ0aWxlcykNCg0KYGBgDQoNCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIGVycm9yPVRSVUV9DQojIHBsb3QgbG93IGdkcCBoaXN0b2dyYW0NCmhpc3QobG93X2dkcCxjb2w9J3JlZCcpDQoNCiMgcGxvdCBoaWdoIGdkcCBoaXN0b2dyYW0NCmhpc3QoaGlnaF9nZHAsY29sPSdibHVlJykNCmBgYA==</div>
 
 
 
@@ -1860,7 +1912,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("1_population change.Rmd");
+  window.initializeSourceEmbed("Life Expectancy By Country.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

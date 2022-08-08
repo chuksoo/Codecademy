@@ -1499,6 +1499,8 @@ window.initializeCodeFolding = function(show) {
   // select all R code blocks
   var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
   rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
 
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -1816,19 +1818,6 @@ info_list &lt;- list(
 # call the print_information function on the friends vector:
 lapply(friends, print_information)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTWVnYW4gaXMgIyAxMzYzIHdlYXJpbmcgdGhlIGNvbG9yIGdyZWVuXCJcblsxXSBcIkphbmV0IGlzICMgNjcyOSB3ZWFyaW5nIHRoZSBjb2xvciBncmVlblwiXG5bMV0gXCJUaW5hIGlzICMgNzUwMSB3ZWFyaW5nIHRoZSBjb2xvciBvcmFuZ2VcIlxuW1sxXV1cblsxXSBcIk1lZ2FuIGlzICMgMTM2MyB3ZWFyaW5nIHRoZSBjb2xvciBncmVlblwiXG5cbltbMl1dXG5bMV0gXCJKYW5ldCBpcyAjIDY3Mjkgd2VhcmluZyB0aGUgY29sb3IgZ3JlZW5cIlxuXG5bWzNdXVxuWzFdIFwiVGluYSBpcyAjIDc1MDEgd2VhcmluZyB0aGUgY29sb3Igb3JhbmdlXCJcbiJ9 -->
-<pre><code>[1] &quot;Megan is # 1363 wearing the color green&quot;
-[1] &quot;Janet is # 6729 wearing the color green&quot;
-[1] &quot;Tina is # 7501 wearing the color orange&quot;
-[[1]]
-[1] &quot;Megan is # 1363 wearing the color green&quot;
-
-[[2]]
-[1] &quot;Janet is # 6729 wearing the color green&quot;
-
-[[3]]
-[1] &quot;Tina is # 7501 wearing the color orange&quot;</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -1856,20 +1845,11 @@ find_place &lt;- function(runner){
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjYWxsIGFuZCBhcHBseSBmaW5kX3BsYWNlKCkgaGVyZTpcbmxhcHBseShmcmllbmRzLCBmaW5kX3BsYWNlKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjYWxsIGFuZCBhcHBseSBmaW5kX3BsYWNlKCkgaGVyZTpcbmxhcHBseShmcmllbmRzLCBmaW5kX3BsYWNlKVxuXG5gYGAifQ== -->
 <pre class="r"><code># call and apply find_place() here:
-lapply(friends, find_place)</code></pre>
+lapply(friends, find_place)
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiW1sxXV1cblsxXSA5XG5cbltbMl1dXG5bMV0gMTBcblxuW1szXV1cblsxXSAxNVxuIn0= -->
-<pre><code>[[1]]
-[1] 9
-
-[[2]]
-[1] 10
-
-[[3]]
-[1] 15</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 
 <div id="rmd-source-code">LS0tDQp0aXRsZTogIkRheSBvZiB0aGUgUmFjZSINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCkl04oCZcyB0aGUgZGF5IG9mIGEgY2l0eXdpZGUgdHJhY2sgcmFjZSBhbmQgeW914oCZcmUgaGVscGluZyBvdXQgeW91ciBmcmllbmRzISBZb3XigJlsbCBiZSBhZGRpbmcgdGhlaXIgamVyc2V5IGFuZCBjb2xvciBpbmZvcm1hdGlvbiB0byBhIGxpc3QsIGhlbHBpbmcgZGlzcGxheSB0aGVpciBpbmZvcm1hdGlvbiwgYW5kIGJ1aWxkaW5nIGEgdXNlZnVsIGZ1bmN0aW9uIHRvIGZpZ3VyZSBvdXQgd2hhdCBwbGFjZSB5b3VyIGZyaWVuZHMgY2FtZSBpbiB0aGUgcmFjZS4NCg0KYGBge3J9DQojIGNyZWF0ZSBmcmllbmRzIHZlY3RvciBoZXJlOg0KZnJpZW5kcyA8LSBjKCdNZWdhbicsICdKYW5ldCcsICdUaW5hJykNCmBgYA0KDQpgYGB7cn0NCiMgYWRkIG9uIHRvIHRoZSBsaXN0IGhlcmU6DQppbmZvX2xpc3QgPC0gbGlzdCgNCiAgRXN0aGVyID0gbGlzdCgNCiAgICBqZXJzZXkgPSAzNDMyLA0KICAgIGNvbG9yID0gInB1cnBsZSINCiAgKSwNCiAgRmVuZyA9IGxpc3QoDQogICAgamVyc2V5ID0gNDIyMSwNCiAgICBjb2xvciA9ICJibHVlIg0KICApLA0KICBNZWdhbiA9IGxpc3QoDQogICAgamVyc2V5ID0gMTM2MywNCiAgICBjb2xvciA9ICJncmVlbiINCiAgKSwNCiAgSmFuZXQgPSBsaXN0KA0KICAgIGplcnNleSA9IDY3MjksDQogICAgY29sb3IgPSAiZ3JlZW4iDQogICksDQogIFRpbmEgPSBsaXN0KA0KICAgIGplcnNleSA9IDc1MDEsDQogICAgY29sb3IgPSAib3JhbmdlIg0KICApDQopDQpgYGANCg0KYGBge3J9DQpwcmludF9pbmZvcm1hdGlvbiA8LSBmdW5jdGlvbihuYW1lKSB7DQogIHByaW50KHBhc3RlKG5hbWUsICJpcyAjIiwgaW5mb19saXN0W1tuYW1lXV0kamVyc2V5LCAid2VhcmluZyB0aGUgY29sb3IiLCBpbmZvX2xpc3RbW25hbWVdXSRjb2xvcikpDQp9DQojIGNhbGwgdGhlIHByaW50X2luZm9ybWF0aW9uIGZ1bmN0aW9uIG9uIHRoZSBmcmllbmRzIHZlY3RvcjoNCmxhcHBseShmcmllbmRzLCBwcmludF9pbmZvcm1hdGlvbikNCmBgYA0KDQpgYGB7cn0NCnJhY2VfcmVzdWx0cyA8LSBjKCJHaSIsICJGcmFuY2VzY2EiLCAiTGVhIiwgIlZpdmlhbiIsICJKZXNzaWNhIiwgIkVzdGhlciIsICJNYXJ5IiwgIllhc21pbmEiLCAiTWVnYW4iLCAiSmFuZXQiLCAiVGlmZmFueSIsICJLaXNoYW4iLCAiRmVuZyIsICJaIiwgIlRpbmEiKQ0KYGBgDQoNCmBgYHtyfQ0KIyB3cml0ZSBmaW5kX3BsYWNlKCkgaGVyZToNCmZpbmRfcGxhY2UgPC0gZnVuY3Rpb24ocnVubmVyKXsNCiAgZm9yIChwbGFjZSBpbiAxOmxlbmd0aChyYWNlX3Jlc3VsdHMpKXsNCiAgICBpZiAocmFjZV9yZXN1bHRzW3BsYWNlXSA9PSBydW5uZXIpew0KICAgICAgcmV0dXJuKHBsYWNlKQ0KICAgIH0NCiAgfQ0KICByZXR1cm4obGVuZ3RoKHJhY2VfcmVzdWx0cykgKyAxKQ0KfQ0KDQpgYGANCg0KDQpgYGB7cn0NCiMgY2FsbCBhbmQgYXBwbHkgZmluZF9wbGFjZSgpIGhlcmU6DQpsYXBwbHkoZnJpZW5kcywgZmluZF9wbGFjZSkNCg0KYGBg</div>
@@ -1919,7 +1899,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("2_day of the race.Rmd");
+  window.initializeSourceEmbed("day of the race.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

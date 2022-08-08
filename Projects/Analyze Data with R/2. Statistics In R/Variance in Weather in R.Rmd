@@ -1,0 +1,75 @@
+---
+title: "Variance in Weather in R"
+output: html_notebook
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+---
+
+You’re planning a trip to London and want to get a sense of the best time of the year to visit. Luckily, you got your hands on a dataset from 2015 that contains over 39,000 data points about weather conditions in London. Surely, with this much information, you can discover something useful about when to make your trip!
+
+```{r message=FALSE, warning=FALSE, error=TRUE}
+# load packages
+library(readr)
+library(dplyr)
+```
+
+```{r error=TRUE}
+# read data
+load("project.Rda")
+```
+
+```{r, eval=FALSE}
+# Change these variables to be the standard deviation of each dataset.
+# Inspect Data
+head(london_data)
+print(nrow(london_data))
+
+temp <- london_data$TemperatureC
+print(head(temp))
+
+# Variance and SD for the year
+average_temp <- mean(temp)
+#variance <- function(x) mean((x-mean(x))^2)
+temperature_var = var(temp)
+print(temperature_var)
+
+temperature_standard_deviation <- sd(temp) # standard deviation
+print(temperature_standard_deviation) 
+
+#Inspect once again
+print(head(london_data))
+# Get monthly temperature average
+june <- london_data %>% # filter data
+  filter(month == "06")
+
+july <- london_data %>% 
+  filter(month == '07')
+
+# mean temperature for June and July
+print(mean(june$TemperatureC))
+print(mean(july$TemperatureC))
+
+#defining the variance of the population mean 
+print(sd(june$TemperatureC))
+print(sd(july$TemperatureC))
+
+# Analyze by month
+monthly_stats <- london_data %>%
+    group_by(month) %>%
+    summarize(mean = mean(TemperatureC),
+              standard_deviation = sd(TemperatureC))
+print(monthly_stats)
+
+# Analyze variance by the hour
+hourly_variance <- london_data %>% 
+   group_by(hour) %>%
+   summarize(mean = mean(TemperatureC), 
+              variance = var(TemperatureC))
+print(hourly_variance)
+
+# Analyze the rainiest month
+rainiest_month <- london_data %>% 
+    group_by(station) %>%
+    summarize(mean = mean(HourlyPrecipMM))
+print(rainiest_month)
+```
+

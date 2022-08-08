@@ -1,6 +1,7 @@
 ---
-title: "R Notebook"
+title: "Housing market analysis"
 output: html_notebook
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
 In this project, you will find the mean, median, and mode cost of one-bedroom apartments in three of the five New York City boroughs: Brooklyn, Manhattan, and Queens.
@@ -18,20 +19,20 @@ library(DescTools)
 
 ```{r message=FALSE, warning=FALSE, error=TRUE}
 # Read in housing data
-brooklyn_one_bed <- read_csv('C:/Users/hotty/Desktop/Codecademy Dev/Codecademy/Projects/Data/streeteasy/brooklyn.csv')
+brooklyn_one_bed <- read_csv('C:/Users/hotty/Documents/Codecademy Dev/Codecademy/Projects/Data/streeteasy/brooklyn.csv')
 brooklyn_price <- brooklyn_one_bed$rent
 
-manhattan_one_bed <- read_csv('C:/Users/hotty/Desktop/Codecademy Dev/Codecademy/Projects/Data/streeteasy/manhattan.csv')
+manhattan_one_bed <- read_csv('C:/Users/hotty/Documents/Codecademy Dev/Codecademy/Projects/Data/streeteasy/manhattan.csv')
 manhattan_price <- manhattan_one_bed$rent
 
-queens_one_bed <- read_csv('C:/Users/hotty/Desktop/Codecademy Dev/Codecademy/Projects/Data/streeteasy/queens.csv')
+queens_one_bed <- read_csv('C:/Users/hotty/Documents/Codecademy Dev/Codecademy/Projects/Data/streeteasy/queens.csv')
 queens_price <- queens_one_bed$rent
 
 ```
 
 ## Find the Mean
 ```{r error=TRUE}
-#Calculate Mean
+# Calculate Mean
 brooklyn_mean <- mean(brooklyn_price)
 manhattan_mean <- mean(manhattan_price)
 queens_mean <- mean(queens_price)
@@ -39,7 +40,7 @@ queens_mean <- mean(queens_price)
 
 ## Find the Median
 ```{r error=TRUE}
-#Calculate Median
+# Calculate Median
 brooklyn_median <- median(brooklyn_price)
 manhattan_median <- median(manhattan_price)
 queens_median <- median(queens_price)
@@ -47,7 +48,7 @@ queens_median <- median(queens_price)
 
 ## Find the Mode
 ```{r error=TRUE}
-#Calculate Mode
+# Calculate Mode
 brooklyn_mode <- Mode(brooklyn_price)
 manhattan_mode <- Mode(manhattan_price)
 queens_mode <- Mode(queens_price)
@@ -55,7 +56,7 @@ queens_mode <- Mode(queens_price)
 
 ## What does our data tell us?
 ```{r error=TRUE}
-# Don't look below here
+# Summary statistics
 # Mean
 if(exists('brooklyn_mean')) {
   print(paste("The mean price in Brooklyn is" , round(brooklyn_mean, digits=2))) 
@@ -92,7 +93,7 @@ if(exists("queens_median")) {
   print("The median price in Queens is not yet defined.")
 } 
     
-#Mode
+# Mode
 if(exists("brooklyn_mode")) {
   print(paste("The mode price in Brooklyn is" , brooklyn_mode)) 
 }else{

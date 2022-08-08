@@ -11,7 +11,7 @@
 
 
 
-<title>R Notebook</title>
+<title>Calculating Population Change Over Time with R</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1499,6 +1499,8 @@ window.initializeCodeFolding = function(show) {
   // select all R code blocks
   var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
   rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
 
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -1760,248 +1762,67 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">R Notebook</h1>
+<h1 class="title toc-ignore">Calculating Population Change Over Time
+with R</h1>
+<h4 class="date">07 August, 2022</h4>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<p>In this project, you will find the mean, median, and mode cost of
-one-bedroom apartments in three of the five New York City boroughs:
-Brooklyn, Manhattan, and Queens.</p>
-<p>Using your findings, you will make conclusions about the cost of
-living in each of the boroughs. We will also discuss an important
-assumption that we make when we point out differences between the
-boroughs.</p>
-<p>We worked with <a href="http://Streeteasy.com">Streeteasy.com</a> to
-collect this data. While we will only focus on the cost of one-bedroom
-apartments, the dataset includes a lot more information if you’re
-interested in asking your own questions about the Brooklyn, Manhattan,
-and Queens housing market.</p>
+<p>You work at the UN in urban planning and are interested in tracking
+population growth across major metropolitan regions. You are hoping that
+by looking at historical population numbers that you can predict future
+growth and help your team make decisions about resourcing.</p>
+<p>Use what you’ve learned about the basics of R to calculate the
+population growth of Istanbul and create a short report.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBMb2FkIGxpYnJhcmllc1xubGlicmFyeShyZWFkcilcbmxpYnJhcnkoZHBseXIpXG5gYGAifQ== -->
-<pre class="r"><code># Load libraries
-library(readr)
-library(dplyr)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2FubnVhbF9ncm93dGggPC0gZnVuY3Rpb24oeWVhcl9vbmUseWVhcl90d28scG9wX3kxLCBwb3BfeTIsY2l0eSkge1xuICBhbm51YWxfZ3Jvd3RoIDwtICgoKHBvcF95MiAtIHBvcF95MSkgLyBwb3BfeTEpICogMTAwKSAvICh5ZWFyX3R3by15ZWFyX29uZSlcbiAgbWVzc2FnZSA8LSBwYXN0ZShcIkZyb21cIiwgeWVhcl9vbmUsIFwidG9cIiwgeWVhcl90d28sIFwidGhlIHBvcHVsYXRpb24gb2ZcIiwgY2l0eSwgXCJncmV3IGJ5IGFwcHJveGltYXRlbHlcIiwgYW5udWFsX2dyb3d0aCwgXCIlIGVhY2ggeWVhci5cIilcbiAgcHJpbnQobWVzc2FnZSlcbiAgcmV0dXJuKGFubnVhbF9ncm93dGgpXG59XG4jIFdyaXRlIHlvdXIgY29kZSBzdGFydGluZyBoZXJlOlxueWVhcl9vbmUgPSAxOTI3XG55ZWFyX3R3byA9IDE5NTBcbmNpdHlfbmFtZSA8LSBcIklzdGFuYnVsLCBUdXJrZXlcIlxucG9wX3llYXJfb25lIDwtIDY5MTAwMFxucG9wX3llYXJfdHdvIDwtIDk4MzAwMFxucG9wX2NoYW5nZSA8LSBwb3BfeWVhcl90d28gLSBwb3BfeWVhcl9vbmVcbnByaW50KHBvcF9jaGFuZ2UpXG5gYGAifQ== -->
+<pre class="r"><code>calculate_annual_growth &lt;- function(year_one,year_two,pop_y1, pop_y2,city) {
+  annual_growth &lt;- (((pop_y2 - pop_y1) / pop_y1) * 100) / (year_two-year_one)
+  message &lt;- paste(&quot;From&quot;, year_one, &quot;to&quot;, year_two, &quot;the population of&quot;, city, &quot;grew by approximately&quot;, annual_growth, &quot;% each year.&quot;)
+  print(message)
+  return(annual_growth)
+}
+# Write your code starting here:
+year_one = 1927
+year_two = 1950
+city_name &lt;- &quot;Istanbul, Turkey&quot;
+pop_year_one &lt;- 691000
+pop_year_two &lt;- 983000
+pop_change &lt;- pop_year_two - pop_year_one
+print(pop_change)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
-<pre><code>
-Attaching package: ‘dplyr’
-
-The following objects are masked from ‘package:stats’:
-
-    filter, lag
-
-The following objects are masked from ‘package:base’:
-
-    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI5MjAwMFxuIn0= -->
+<pre><code>[1] 292000</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShEZXNjVG9vbHMpXG5gYGAifQ== -->
-<pre class="r"><code>library(DescTools)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjYWxjdWxhdGUgdGhlIGFubnVhbCBwZXJjZW50YWdlIGdyb3d0aCByYXRlXG5wZXJjZW50YWdlX2dyIDwtICgocG9wX3llYXJfdHdvIC0gcG9wX3llYXJfb25lKSAvIHBvcF95ZWFyX29uZSkgKiAxMDBcbnByaW50KHBlcmNlbnRhZ2VfZ3IpXG5gYGAifQ== -->
+<pre class="r"><code># calculate the annual percentage growth rate
+percentage_gr &lt;- ((pop_year_two - pop_year_one) / pop_year_one) * 100
+print(percentage_gr)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ2RhdGEudGFibGUnOlxuICBtZXRob2QgICAgICAgICAgIGZyb21cbiAgcHJpbnQuZGF0YS50YWJsZSAgICAgXG4ifQ== -->
-<pre><code>Registered S3 method overwritten by &#39;data.table&#39;:
-  method           from
-  print.data.table     </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQyLjI1NzZcbiJ9 -->
+<pre><code>[1] 42.2576</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGluIGhvdXNpbmcgZGF0YVxuYnJvb2tseW5fb25lX2JlZCA8LSByZWFkX2NzdignQzovVXNlcnMvaG90dHkvRGVza3RvcC9Db2RlY2FkZW15IERldi9Db2RlY2FkZW15L1Byb2plY3RzL0RhdGEvc3RyZWV0ZWFzeS9icm9va2x5bi5jc3YnKVxuYGBgIn0= -->
-<pre class="r"><code># Read in housing data
-brooklyn_one_bed &lt;- read_csv(&#39;C:/Users/hotty/Desktop/Codecademy Dev/Codecademy/Projects/Data/streeteasy/brooklyn.csv&#39;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjYWxjdWxhdGUgdGhlIGFubnVhbCBwZXJjZW50YWdlIGdyb3d0aFxuYW5udWFsX2dyIDwtIHBlcmNlbnRhZ2VfZ3IgLyAoeWVhcl90d28gLSB5ZWFyX29uZSlcbnByaW50KGFubnVhbF9ncilcbmBgYCJ9 -->
+<pre class="r"><code># calculate the annual percentage growth
+annual_gr &lt;- percentage_gr / (year_two - year_one)
+print(annual_gr)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTAxMyBDb2x1bW5zOiAxOFxuLS0gQ29sdW1uIHNwZWNpZmljYXRpb24gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuRGVsaW1pdGVyOiBcIixcIlxuY2hyICAoMik6IG5laWdoYm9yaG9vZCwgYm9yb3VnaFxuZGJsICgxNik6IHJlbnRhbF9pZCwgcmVudCwgYmVkcm9vbXMsIGJhdGhyb29tcywgc2l6ZV9zcWZ0LCBtaW5fdG9fc3Vid2F5LCBmbG9vciwgYnVpbGRpbmdfYWdlX3lycywgbm9fZmVlLi4uXG5cbmkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG5pIFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
-<pre><code>Rows: 1013 Columns: 18
--- Column specification -------------------------------------------------------------------------------------
-Delimiter: &quot;,&quot;
-chr  (2): neighborhood, borough
-dbl (16): rental_id, rent, bedrooms, bathrooms, size_sqft, min_to_subway, floor, building_age_yrs, no_fee...
-
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuODM3Mjg3XG4ifQ== -->
+<pre><code>[1] 1.837287</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYnJvb2tseW5fcHJpY2UgPC0gYnJvb2tseW5fb25lX2JlZCRyZW50XG5cbm1hbmhhdHRhbl9vbmVfYmVkIDwtIHJlYWRfY3N2KCdDOi9Vc2Vycy9ob3R0eS9EZXNrdG9wL0NvZGVjYWRlbXkgRGV2L0NvZGVjYWRlbXkvUHJvamVjdHMvRGF0YS9zdHJlZXRlYXN5L21hbmhhdHRhbi5jc3YnKVxuYGBgIn0= -->
-<pre class="r"><code>brooklyn_price &lt;- brooklyn_one_bed$rent
-
-manhattan_one_bed &lt;- read_csv(&#39;C:/Users/hotty/Desktop/Codecademy Dev/Codecademy/Projects/Data/streeteasy/manhattan.csv&#39;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2FubnVhbF9ncm93dGgoMTkyNywgMTk1MCwgNjkxMDAwLCA5ODMwMDAsIGNpdHlfbmFtZSlcbmBgYCJ9 -->
+<pre class="r"><code>calculate_annual_growth(1927, 1950, 691000, 983000, city_name)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMzUzOSBDb2x1bW5zOiAxOFxuLS0gQ29sdW1uIHNwZWNpZmljYXRpb24gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuRGVsaW1pdGVyOiBcIixcIlxuY2hyICAoMik6IG5laWdoYm9yaG9vZCwgYm9yb3VnaFxuZGJsICgxNik6IHJlbnRhbF9pZCwgcmVudCwgYmVkcm9vbXMsIGJhdGhyb29tcywgc2l6ZV9zcWZ0LCBtaW5fdG9fc3Vid2F5LCBmbG9vciwgYnVpbGRpbmdfYWdlX3lycywgbm9fZmVlLi4uXG5cbmkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG5pIFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
-<pre><code>Rows: 3539 Columns: 18
--- Column specification -------------------------------------------------------------------------------------
-Delimiter: &quot;,&quot;
-chr  (2): neighborhood, borough
-dbl (16): rental_id, rent, bedrooms, bathrooms, size_sqft, min_to_subway, floor, building_age_yrs, no_fee...
-
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWFuaGF0dGFuX3ByaWNlIDwtIG1hbmhhdHRhbl9vbmVfYmVkJHJlbnRcblxucXVlZW5zX29uZV9iZWQgPC0gcmVhZF9jc3YoJ0M6L1VzZXJzL2hvdHR5L0Rlc2t0b3AvQ29kZWNhZGVteSBEZXYvQ29kZWNhZGVteS9Qcm9qZWN0cy9EYXRhL3N0cmVldGVhc3kvcXVlZW5zLmNzdicpXG5gYGAifQ== -->
-<pre class="r"><code>manhattan_price &lt;- manhattan_one_bed$rent
-
-queens_one_bed &lt;- read_csv(&#39;C:/Users/hotty/Desktop/Codecademy Dev/Codecademy/Projects/Data/streeteasy/queens.csv&#39;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNDQ4IENvbHVtbnM6IDE4XG4tLSBDb2x1bW4gc3BlY2lmaWNhdGlvbiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgICgyKTogbmVpZ2hib3Job29kLCBib3JvdWdoXG5kYmwgKDE2KTogcmVudGFsX2lkLCByZW50LCBiZWRyb29tcywgYmF0aHJvb21zLCBzaXplX3NxZnQsIG1pbl90b19zdWJ3YXksIGZsb29yLCBidWlsZGluZ19hZ2VfeXJzLCBub19mZWUuLi5cblxuaSBVc2UgYHNwZWMoKWAgdG8gcmV0cmlldmUgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZGF0YS5cbmkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
-<pre><code>Rows: 448 Columns: 18
--- Column specification -------------------------------------------------------------------------------------
-Delimiter: &quot;,&quot;
-chr  (2): neighborhood, borough
-dbl (16): rental_id, rent, bedrooms, bathrooms, size_sqft, min_to_subway, floor, building_age_yrs, no_fee...
-
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucXVlZW5zX3ByaWNlIDwtIHF1ZWVuc19vbmVfYmVkJHJlbnRcblxuYGBgIn0= -->
-<pre class="r"><code>queens_price &lt;- queens_one_bed$rent
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="find-the-mean" class="section level2">
-<h2>Find the Mean</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NhbGN1bGF0ZSBNZWFuXG5icm9va2x5bl9tZWFuIDwtIG1lYW4oYnJvb2tseW5fcHJpY2UpXG5tYW5oYXR0YW5fbWVhbiA8LSBtZWFuKG1hbmhhdHRhbl9wcmljZSlcbnF1ZWVuc19tZWFuIDwtIG1lYW4ocXVlZW5zX3ByaWNlKVxuYGBgIn0= -->
-<pre class="r"><code>#Calculate Mean
-brooklyn_mean &lt;- mean(brooklyn_price)
-manhattan_mean &lt;- mean(manhattan_price)
-queens_mean &lt;- mean(queens_price)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="find-the-median" class="section level2">
-<h2>Find the Median</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NhbGN1bGF0ZSBNZWRpYW5cbmJyb29rbHluX21lZGlhbiA8LSBtZWRpYW4oYnJvb2tseW5fcHJpY2UpXG5tYW5oYXR0YW5fbWVkaWFuIDwtIG1lZGlhbihtYW5oYXR0YW5fcHJpY2UpXG5xdWVlbnNfbWVkaWFuIDwtIG1lZGlhbihxdWVlbnNfcHJpY2UpXG5gYGAifQ== -->
-<pre class="r"><code>#Calculate Median
-brooklyn_median &lt;- median(brooklyn_price)
-manhattan_median &lt;- median(manhattan_price)
-queens_median &lt;- median(queens_price)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="find-the-mode" class="section level2">
-<h2>Find the Mode</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NhbGN1bGF0ZSBNb2RlXG5icm9va2x5bl9tb2RlIDwtIE1vZGUoYnJvb2tseW5fcHJpY2UpXG5tYW5oYXR0YW5fbW9kZSA8LSBNb2RlKG1hbmhhdHRhbl9wcmljZSlcbnF1ZWVuc19tb2RlIDwtIE1vZGUocXVlZW5zX3ByaWNlKVxuYGBgIn0= -->
-<pre class="r"><code>#Calculate Mode
-brooklyn_mode &lt;- Mode(brooklyn_price)
-manhattan_mode &lt;- Mode(manhattan_price)
-queens_mode &lt;- Mode(queens_price)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="what-does-our-data-tell-us" class="section level2">
-<h2>What does our data tell us?</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEb24ndCBsb29rIGJlbG93IGhlcmVcbiMgTWVhblxuaWYoZXhpc3RzKCdicm9va2x5bl9tZWFuJykpIHtcbiAgcHJpbnQocGFzdGUoXCJUaGUgbWVhbiBwcmljZSBpbiBCcm9va2x5biBpc1wiICwgcm91bmQoYnJvb2tseW5fbWVhbiwgZGlnaXRzPTIpKSkgXG59ZWxzZXtcbiAgICBwcmludChcIlRoZSBtZWFuIHByaWNlIGluIEJyb29rbHluIGlzIG5vdCB5ZXQgZGVmaW5lZC5cIilcbn1cbmBgYCJ9 -->
-<pre class="r"><code># Don&#39;t look below here
-# Mean
-if(exists(&#39;brooklyn_mean&#39;)) {
-  print(paste(&quot;The mean price in Brooklyn is&quot; , round(brooklyn_mean, digits=2))) 
-}else{
-    print(&quot;The mean price in Brooklyn is not yet defined.&quot;)
-}</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1lYW4gcHJpY2UgaW4gQnJvb2tseW4gaXMgMzMyNy40XCJcbiJ9 -->
-<pre><code>[1] &quot;The mean price in Brooklyn is 3327.4&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoZXhpc3RzKFwibWFuaGF0dGFuX21lYW5cIikpIHtcbiAgICBwcmludChwYXN0ZShcIlRoZSBtZWFuIHByaWNlIGluIE1hbmhhdHRhbiBpc1wiLCByb3VuZChtYW5oYXR0YW5fbWVhbixkaWdpdHM9MikpKVxufSBlbHNlIHtcbiAgICBwcmludChcIlRoZSBtZWFuIGluIE1hbmhhdHRhbiBpcyBub3QgeWV0IGRlZmluZWQuXCIpXG59XG5gYGAifQ== -->
-<pre class="r"><code>if(exists(&quot;manhattan_mean&quot;)) {
-    print(paste(&quot;The mean price in Manhattan is&quot;, round(manhattan_mean,digits=2)))
-} else {
-    print(&quot;The mean in Manhattan is not yet defined.&quot;)
-}</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1lYW4gcHJpY2UgaW4gTWFuaGF0dGFuIGlzIDUxMzguOTRcIlxuIn0= -->
-<pre><code>[1] &quot;The mean price in Manhattan is 5138.94&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoZXhpc3RzKFwicXVlZW5zX21lYW5cIikpIHtcbiAgICBwcmludChwYXN0ZShcIlRoZSBtZWFuIHByaWNlIGluIFF1ZWVucyBpc1wiICwgcm91bmQocXVlZW5zX21lYW4sZGlnaXRzPTIpKSlcbn0gZWxzZSB7XG4gIHByaW50KFwiVGhlIG1lYW4gcHJpY2UgaW4gUXVlZW5zIGlzIG5vdCB5ZXQgZGVmaW5lZC5cIilcbn0gICBcbmBgYCJ9 -->
-<pre class="r"><code>if(exists(&quot;queens_mean&quot;)) {
-    print(paste(&quot;The mean price in Queens is&quot; , round(queens_mean,digits=2)))
-} else {
-  print(&quot;The mean price in Queens is not yet defined.&quot;)
-}   </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1lYW4gcHJpY2UgaW4gUXVlZW5zIGlzIDI1MTYuMTVcIlxuIn0= -->
-<pre><code>[1] &quot;The mean price in Queens is 2516.15&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICAgIFxuIyBNZWRpYW5cbmlmKGV4aXN0cyhcImJyb29rbHluX21lZGlhblwiKSkge1xuICBwcmludChwYXN0ZShcIlRoZSBtZWRpYW4gcHJpY2UgaW4gQnJvb2tseW4gaXNcIiAsIGJyb29rbHluX21lZGlhbikpIFxufWVsc2V7XG4gICAgcHJpbnQoXCJUaGUgbWVkaWFuIHByaWNlIGluIEJyb29rbHluIGlzIG5vdCB5ZXQgZGVmaW5lZC5cIilcbn1cbmBgYCJ9 -->
-<pre class="r"><code>    
-# Median
-if(exists(&quot;brooklyn_median&quot;)) {
-  print(paste(&quot;The median price in Brooklyn is&quot; , brooklyn_median)) 
-}else{
-    print(&quot;The median price in Brooklyn is not yet defined.&quot;)
-}</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1lZGlhbiBwcmljZSBpbiBCcm9va2x5biBpcyAzMDAwXCJcbiJ9 -->
-<pre><code>[1] &quot;The median price in Brooklyn is 3000&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoZXhpc3RzKFwibWFuaGF0dGFuX21lZGlhblwiKSkge1xuICAgIHByaW50KHBhc3RlKFwiVGhlIG1lZGlhbiBwcmljZSBpbiBNYW5oYXR0YW4gaXNcIiwgbWFuaGF0dGFuX21lZGlhbikpXG59IGVsc2Uge1xuICAgIHByaW50KFwiVGhlIG1lZGlhbiBpbiBNYW5oYXR0YW4gaXMgbm90IHlldCBkZWZpbmVkLlwiKVxufVxuYGBgIn0= -->
-<pre class="r"><code>if(exists(&quot;manhattan_median&quot;)) {
-    print(paste(&quot;The median price in Manhattan is&quot;, manhattan_median))
-} else {
-    print(&quot;The median in Manhattan is not yet defined.&quot;)
-}</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1lZGlhbiBwcmljZSBpbiBNYW5oYXR0YW4gaXMgNDAwMFwiXG4ifQ== -->
-<pre><code>[1] &quot;The median price in Manhattan is 4000&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoZXhpc3RzKFwicXVlZW5zX21lZGlhblwiKSkge1xuICAgIHByaW50KHBhc3RlKFwiVGhlIG1lZGlhbiBwcmljZSBpbiBRdWVlbnMgaXNcIiAsIHF1ZWVuc19tZWRpYW4pKVxufSBlbHNlIHtcbiAgcHJpbnQoXCJUaGUgbWVkaWFuIHByaWNlIGluIFF1ZWVucyBpcyBub3QgeWV0IGRlZmluZWQuXCIpXG59IFxuYGBgIn0= -->
-<pre class="r"><code>if(exists(&quot;queens_median&quot;)) {
-    print(paste(&quot;The median price in Queens is&quot; , queens_median))
-} else {
-  print(&quot;The median price in Queens is not yet defined.&quot;)
-} </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1lZGlhbiBwcmljZSBpbiBRdWVlbnMgaXMgMjM1MFwiXG4ifQ== -->
-<pre><code>[1] &quot;The median price in Queens is 2350&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICAgIFxuI01vZGVcbmlmKGV4aXN0cyhcImJyb29rbHluX21vZGVcIikpIHtcbiAgcHJpbnQocGFzdGUoXCJUaGUgbW9kZSBwcmljZSBpbiBCcm9va2x5biBpc1wiICwgYnJvb2tseW5fbW9kZSkpIFxufWVsc2V7XG4gICAgcHJpbnQoXCJUaGUgbW9kZSBwcmljZSBpbiBCcm9va2x5biBpcyBub3QgeWV0IGRlZmluZWQuXCIpXG59XG5gYGAifQ== -->
-<pre class="r"><code>    
-#Mode
-if(exists(&quot;brooklyn_mode&quot;)) {
-  print(paste(&quot;The mode price in Brooklyn is&quot; , brooklyn_mode)) 
-}else{
-    print(&quot;The mode price in Brooklyn is not yet defined.&quot;)
-}</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1vZGUgcHJpY2UgaW4gQnJvb2tseW4gaXMgMjUwMFwiXG4ifQ== -->
-<pre><code>[1] &quot;The mode price in Brooklyn is 2500&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoZXhpc3RzKFwibWFuaGF0dGFuX21lZGlhblwiKSkge1xuICAgIHByaW50KHBhc3RlKFwiVGhlIG1vZGUgcHJpY2UgaW4gTWFuaGF0dGFuIGlzXCIsIG1hbmhhdHRhbl9tb2RlKSlcbn0gZWxzZSB7XG4gICAgcHJpbnQoXCJUaGUgbW9kZSBpbiBNYW5oYXR0YW4gaXMgbm90IHlldCBkZWZpbmVkLlwiKVxufVxuYGBgIn0= -->
-<pre class="r"><code>if(exists(&quot;manhattan_median&quot;)) {
-    print(paste(&quot;The mode price in Manhattan is&quot;, manhattan_mode))
-} else {
-    print(&quot;The mode in Manhattan is not yet defined.&quot;)
-}</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1vZGUgcHJpY2UgaW4gTWFuaGF0dGFuIGlzIDM1MDBcIlxuIn0= -->
-<pre><code>[1] &quot;The mode price in Manhattan is 3500&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaWYoZXhpc3RzKFwicXVlZW5zX21lZGlhblwiKSkge1xuICAgIHByaW50KHBhc3RlKFwiVGhlIG1vZGUgcHJpY2UgaW4gUXVlZW5zIGlzXCIgLCBxdWVlbnNfbW9kZSkpXG59IGVsc2Uge1xuICBwcmludChcIlRoZSBtb2RlIHByaWNlIGluIFF1ZWVucyBpcyBub3QgeWV0IGRlZmluZWQuXCIpXG59IFxuYGBgIn0= -->
-<pre class="r"><code>if(exists(&quot;queens_median&quot;)) {
-    print(paste(&quot;The mode price in Queens is&quot; , queens_mode))
-} else {
-  print(&quot;The mode price in Queens is not yet defined.&quot;)
-} </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIG1vZGUgcHJpY2UgaW4gUXVlZW5zIGlzIDIyMDBcIlxuIn0= -->
-<pre><code>[1] &quot;The mode price in Queens is 2200&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRnJvbSAxOTI3IHRvIDE5NTAgdGhlIHBvcHVsYXRpb24gb2YgSXN0YW5idWwsIFR1cmtleSBncmV3IGJ5IGFwcHJveGltYXRlbHkgMS44MzcyODY4NTU4NDg0OSAlIGVhY2ggeWVhci5cIlxuWzFdIDEuODM3Mjg3XG4ifQ== -->
+<pre><code>[1] &quot;From 1927 to 1950 the population of Istanbul, Turkey grew by approximately 1.83728685584849 % each year.&quot;
+[1] 1.837287</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
-</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpJbiB0aGlzIHByb2plY3QsIHlvdSB3aWxsIGZpbmQgdGhlIG1lYW4sIG1lZGlhbiwgYW5kIG1vZGUgY29zdCBvZiBvbmUtYmVkcm9vbSBhcGFydG1lbnRzIGluIHRocmVlIG9mIHRoZSBmaXZlIE5ldyBZb3JrIENpdHkgYm9yb3VnaHM6IEJyb29rbHluLCBNYW5oYXR0YW4sIGFuZCBRdWVlbnMuDQoNClVzaW5nIHlvdXIgZmluZGluZ3MsIHlvdSB3aWxsIG1ha2UgY29uY2x1c2lvbnMgYWJvdXQgdGhlIGNvc3Qgb2YgbGl2aW5nIGluIGVhY2ggb2YgdGhlIGJvcm91Z2hzLiBXZSB3aWxsIGFsc28gZGlzY3VzcyBhbiBpbXBvcnRhbnQgYXNzdW1wdGlvbiB0aGF0IHdlIG1ha2Ugd2hlbiB3ZSBwb2ludCBvdXQgZGlmZmVyZW5jZXMgYmV0d2VlbiB0aGUgYm9yb3VnaHMuDQoNCldlIHdvcmtlZCB3aXRoIFtTdHJlZXRlYXN5LmNvbV0oaHR0cDovL1N0cmVldGVhc3kuY29tKSB0byBjb2xsZWN0IHRoaXMgZGF0YS4gV2hpbGUgd2Ugd2lsbCBvbmx5IGZvY3VzIG9uIHRoZSBjb3N0IG9mIG9uZS1iZWRyb29tIGFwYXJ0bWVudHMsIHRoZSBkYXRhc2V0IGluY2x1ZGVzIGEgbG90IG1vcmUgaW5mb3JtYXRpb24gaWYgeW914oCZcmUgaW50ZXJlc3RlZCBpbiBhc2tpbmcgeW91ciBvd24gcXVlc3Rpb25zIGFib3V0IHRoZSBCcm9va2x5biwgTWFuaGF0dGFuLCBhbmQgUXVlZW5zIGhvdXNpbmcgbWFya2V0Lg0KDQpgYGB7ciBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCBlcnJvcj1UUlVFfQ0KIyBMb2FkIGxpYnJhcmllcw0KbGlicmFyeShyZWFkcikNCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KERlc2NUb29scykNCmBgYA0KDQpgYGB7ciBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCBlcnJvcj1UUlVFfQ0KIyBSZWFkIGluIGhvdXNpbmcgZGF0YQ0KYnJvb2tseW5fb25lX2JlZCA8LSByZWFkX2NzdignQzovVXNlcnMvaG90dHkvRGVza3RvcC9Db2RlY2FkZW15IERldi9Db2RlY2FkZW15L1Byb2plY3RzL0RhdGEvc3RyZWV0ZWFzeS9icm9va2x5bi5jc3YnKQ0KYnJvb2tseW5fcHJpY2UgPC0gYnJvb2tseW5fb25lX2JlZCRyZW50DQoNCm1hbmhhdHRhbl9vbmVfYmVkIDwtIHJlYWRfY3N2KCdDOi9Vc2Vycy9ob3R0eS9EZXNrdG9wL0NvZGVjYWRlbXkgRGV2L0NvZGVjYWRlbXkvUHJvamVjdHMvRGF0YS9zdHJlZXRlYXN5L21hbmhhdHRhbi5jc3YnKQ0KbWFuaGF0dGFuX3ByaWNlIDwtIG1hbmhhdHRhbl9vbmVfYmVkJHJlbnQNCg0KcXVlZW5zX29uZV9iZWQgPC0gcmVhZF9jc3YoJ0M6L1VzZXJzL2hvdHR5L0Rlc2t0b3AvQ29kZWNhZGVteSBEZXYvQ29kZWNhZGVteS9Qcm9qZWN0cy9EYXRhL3N0cmVldGVhc3kvcXVlZW5zLmNzdicpDQpxdWVlbnNfcHJpY2UgPC0gcXVlZW5zX29uZV9iZWQkcmVudA0KDQpgYGANCg0KIyMgRmluZCB0aGUgTWVhbg0KYGBge3IgZXJyb3I9VFJVRX0NCiNDYWxjdWxhdGUgTWVhbg0KYnJvb2tseW5fbWVhbiA8LSBtZWFuKGJyb29rbHluX3ByaWNlKQ0KbWFuaGF0dGFuX21lYW4gPC0gbWVhbihtYW5oYXR0YW5fcHJpY2UpDQpxdWVlbnNfbWVhbiA8LSBtZWFuKHF1ZWVuc19wcmljZSkNCmBgYA0KDQojIyBGaW5kIHRoZSBNZWRpYW4NCmBgYHtyIGVycm9yPVRSVUV9DQojQ2FsY3VsYXRlIE1lZGlhbg0KYnJvb2tseW5fbWVkaWFuIDwtIG1lZGlhbihicm9va2x5bl9wcmljZSkNCm1hbmhhdHRhbl9tZWRpYW4gPC0gbWVkaWFuKG1hbmhhdHRhbl9wcmljZSkNCnF1ZWVuc19tZWRpYW4gPC0gbWVkaWFuKHF1ZWVuc19wcmljZSkNCmBgYA0KDQojIyBGaW5kIHRoZSBNb2RlDQpgYGB7ciBlcnJvcj1UUlVFfQ0KI0NhbGN1bGF0ZSBNb2RlDQpicm9va2x5bl9tb2RlIDwtIE1vZGUoYnJvb2tseW5fcHJpY2UpDQptYW5oYXR0YW5fbW9kZSA8LSBNb2RlKG1hbmhhdHRhbl9wcmljZSkNCnF1ZWVuc19tb2RlIDwtIE1vZGUocXVlZW5zX3ByaWNlKQ0KYGBgDQoNCiMjIFdoYXQgZG9lcyBvdXIgZGF0YSB0ZWxsIHVzPw0KYGBge3IgZXJyb3I9VFJVRX0NCiMgRG9uJ3QgbG9vayBiZWxvdyBoZXJlDQojIE1lYW4NCmlmKGV4aXN0cygnYnJvb2tseW5fbWVhbicpKSB7DQogIHByaW50KHBhc3RlKCJUaGUgbWVhbiBwcmljZSBpbiBCcm9va2x5biBpcyIgLCByb3VuZChicm9va2x5bl9tZWFuLCBkaWdpdHM9MikpKSANCn1lbHNlew0KICAgIHByaW50KCJUaGUgbWVhbiBwcmljZSBpbiBCcm9va2x5biBpcyBub3QgeWV0IGRlZmluZWQuIikNCn0NCg0KaWYoZXhpc3RzKCJtYW5oYXR0YW5fbWVhbiIpKSB7DQogICAgcHJpbnQocGFzdGUoIlRoZSBtZWFuIHByaWNlIGluIE1hbmhhdHRhbiBpcyIsIHJvdW5kKG1hbmhhdHRhbl9tZWFuLGRpZ2l0cz0yKSkpDQp9IGVsc2Ugew0KICAgIHByaW50KCJUaGUgbWVhbiBpbiBNYW5oYXR0YW4gaXMgbm90IHlldCBkZWZpbmVkLiIpDQp9DQppZihleGlzdHMoInF1ZWVuc19tZWFuIikpIHsNCiAgICBwcmludChwYXN0ZSgiVGhlIG1lYW4gcHJpY2UgaW4gUXVlZW5zIGlzIiAsIHJvdW5kKHF1ZWVuc19tZWFuLGRpZ2l0cz0yKSkpDQp9IGVsc2Ugew0KICBwcmludCgiVGhlIG1lYW4gcHJpY2UgaW4gUXVlZW5zIGlzIG5vdCB5ZXQgZGVmaW5lZC4iKQ0KfSAgIA0KICAgIA0KIyBNZWRpYW4NCmlmKGV4aXN0cygiYnJvb2tseW5fbWVkaWFuIikpIHsNCiAgcHJpbnQocGFzdGUoIlRoZSBtZWRpYW4gcHJpY2UgaW4gQnJvb2tseW4gaXMiICwgYnJvb2tseW5fbWVkaWFuKSkgDQp9ZWxzZXsNCiAgICBwcmludCgiVGhlIG1lZGlhbiBwcmljZSBpbiBCcm9va2x5biBpcyBub3QgeWV0IGRlZmluZWQuIikNCn0NCg0KaWYoZXhpc3RzKCJtYW5oYXR0YW5fbWVkaWFuIikpIHsNCiAgICBwcmludChwYXN0ZSgiVGhlIG1lZGlhbiBwcmljZSBpbiBNYW5oYXR0YW4gaXMiLCBtYW5oYXR0YW5fbWVkaWFuKSkNCn0gZWxzZSB7DQogICAgcHJpbnQoIlRoZSBtZWRpYW4gaW4gTWFuaGF0dGFuIGlzIG5vdCB5ZXQgZGVmaW5lZC4iKQ0KfQ0KaWYoZXhpc3RzKCJxdWVlbnNfbWVkaWFuIikpIHsNCiAgICBwcmludChwYXN0ZSgiVGhlIG1lZGlhbiBwcmljZSBpbiBRdWVlbnMgaXMiICwgcXVlZW5zX21lZGlhbikpDQp9IGVsc2Ugew0KICBwcmludCgiVGhlIG1lZGlhbiBwcmljZSBpbiBRdWVlbnMgaXMgbm90IHlldCBkZWZpbmVkLiIpDQp9IA0KICAgIA0KI01vZGUNCmlmKGV4aXN0cygiYnJvb2tseW5fbW9kZSIpKSB7DQogIHByaW50KHBhc3RlKCJUaGUgbW9kZSBwcmljZSBpbiBCcm9va2x5biBpcyIgLCBicm9va2x5bl9tb2RlKSkgDQp9ZWxzZXsNCiAgICBwcmludCgiVGhlIG1vZGUgcHJpY2UgaW4gQnJvb2tseW4gaXMgbm90IHlldCBkZWZpbmVkLiIpDQp9DQoNCmlmKGV4aXN0cygibWFuaGF0dGFuX21lZGlhbiIpKSB7DQogICAgcHJpbnQocGFzdGUoIlRoZSBtb2RlIHByaWNlIGluIE1hbmhhdHRhbiBpcyIsIG1hbmhhdHRhbl9tb2RlKSkNCn0gZWxzZSB7DQogICAgcHJpbnQoIlRoZSBtb2RlIGluIE1hbmhhdHRhbiBpcyBub3QgeWV0IGRlZmluZWQuIikNCn0NCmlmKGV4aXN0cygicXVlZW5zX21lZGlhbiIpKSB7DQogICAgcHJpbnQocGFzdGUoIlRoZSBtb2RlIHByaWNlIGluIFF1ZWVucyBpcyIgLCBxdWVlbnNfbW9kZSkpDQp9IGVsc2Ugew0KICBwcmludCgiVGhlIG1vZGUgcHJpY2UgaW4gUXVlZW5zIGlzIG5vdCB5ZXQgZGVmaW5lZC4iKQ0KfSANCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNhbGN1bGF0aW5nIFBvcHVsYXRpb24gQ2hhbmdlIE92ZXIgVGltZSB3aXRoIFIiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCmRhdGU6ICJgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkICVCLCAlWScpYCINCi0tLQ0KWW91IHdvcmsgYXQgdGhlIFVOIGluIHVyYmFuIHBsYW5uaW5nIGFuZCBhcmUgaW50ZXJlc3RlZCBpbiB0cmFja2luZyBwb3B1bGF0aW9uIGdyb3d0aCBhY3Jvc3MgbWFqb3IgbWV0cm9wb2xpdGFuIHJlZ2lvbnMuIFlvdSBhcmUgaG9waW5nIHRoYXQgYnkgbG9va2luZyBhdCBoaXN0b3JpY2FsIHBvcHVsYXRpb24gbnVtYmVycyB0aGF0IHlvdSBjYW4gcHJlZGljdCBmdXR1cmUgZ3Jvd3RoIGFuZCBoZWxwIHlvdXIgdGVhbSBtYWtlIGRlY2lzaW9ucyBhYm91dCByZXNvdXJjaW5nLg0KDQpVc2Ugd2hhdCB5b3XigJl2ZSBsZWFybmVkIGFib3V0IHRoZSBiYXNpY3Mgb2YgUiB0byBjYWxjdWxhdGUgdGhlIHBvcHVsYXRpb24gZ3Jvd3RoIG9mIElzdGFuYnVsIGFuZCBjcmVhdGUgYSBzaG9ydCByZXBvcnQuDQoNCmBgYHtyIGVycm9yPVRSVUV9DQpjYWxjdWxhdGVfYW5udWFsX2dyb3d0aCA8LSBmdW5jdGlvbih5ZWFyX29uZSx5ZWFyX3R3byxwb3BfeTEsIHBvcF95MixjaXR5KSB7DQogIGFubnVhbF9ncm93dGggPC0gKCgocG9wX3kyIC0gcG9wX3kxKSAvIHBvcF95MSkgKiAxMDApIC8gKHllYXJfdHdvLXllYXJfb25lKQ0KICBtZXNzYWdlIDwtIHBhc3RlKCJGcm9tIiwgeWVhcl9vbmUsICJ0byIsIHllYXJfdHdvLCAidGhlIHBvcHVsYXRpb24gb2YiLCBjaXR5LCAiZ3JldyBieSBhcHByb3hpbWF0ZWx5IiwgYW5udWFsX2dyb3d0aCwgIiUgZWFjaCB5ZWFyLiIpDQogIHByaW50KG1lc3NhZ2UpDQogIHJldHVybihhbm51YWxfZ3Jvd3RoKQ0KfQ0KIyBXcml0ZSB5b3VyIGNvZGUgc3RhcnRpbmcgaGVyZToNCnllYXJfb25lID0gMTkyNw0KeWVhcl90d28gPSAxOTUwDQpjaXR5X25hbWUgPC0gIklzdGFuYnVsLCBUdXJrZXkiDQpwb3BfeWVhcl9vbmUgPC0gNjkxMDAwDQpwb3BfeWVhcl90d28gPC0gOTgzMDAwDQpwb3BfY2hhbmdlIDwtIHBvcF95ZWFyX3R3byAtIHBvcF95ZWFyX29uZQ0KcHJpbnQocG9wX2NoYW5nZSkNCg0KIyBjYWxjdWxhdGUgdGhlIGFubnVhbCBwZXJjZW50YWdlIGdyb3d0aCByYXRlDQpwZXJjZW50YWdlX2dyIDwtICgocG9wX3llYXJfdHdvIC0gcG9wX3llYXJfb25lKSAvIHBvcF95ZWFyX29uZSkgKiAxMDANCnByaW50KHBlcmNlbnRhZ2VfZ3IpDQoNCiMgY2FsY3VsYXRlIHRoZSBhbm51YWwgcGVyY2VudGFnZSBncm93dGgNCmFubnVhbF9nciA8LSBwZXJjZW50YWdlX2dyIC8gKHllYXJfdHdvIC0geWVhcl9vbmUpDQpwcmludChhbm51YWxfZ3IpDQoNCmNhbGN1bGF0ZV9hbm51YWxfZ3Jvd3RoKDE5MjcsIDE5NTAsIDY5MTAwMCwgOTgzMDAwLCBjaXR5X25hbWUpDQpgYGA=</div>
 
 
 
@@ -2048,7 +1869,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("3_central tendency for housing data.Rmd");
+  window.initializeSourceEmbed("population change.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
