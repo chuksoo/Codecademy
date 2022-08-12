@@ -1,6 +1,7 @@
 ---
 title: "1985 Cars"
 output: html-notebook
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
 # Task 1
