@@ -1,0 +1,231 @@
+---
+title: "Museums and Nature Centers"
+output: html_notebook
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+---
+
+There are thousands of museums, aquariums, and zoos across the United States. In this project, we’ll take a look at the distribution of these institutions by geographic region, type, and revenue.
+
+Our data is compiled from administrative records from the Institute of Museum and Library Services, IRS records, and private foundation grantmaking records. This data reflects the status of each institution as of 2013. For each institution, we have information on its name, type, and location. Each institution also has a parent organization – for example, if a museum housed at a university, its parent organization is the university where it resides. Financial data on annual revenue is available at the parent organization level. We’ll be creating several different data visualizations in this project. 
+
+
+```{r data, message=FALSE}
+# install packages
+install.packages(c('plotrix'))
+
+# load libraries
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(tidyr)
+library(plotrix)
+
+```
+
+## Data Exploration
+
+```{r Import .txt file and write to csv}
+#Import txt file in R
+museums = read.table("museums.txt", sep=",", header=TRUE)
+
+# storing this dataframe in a csv file
+write.csv(museums, file = 'museums.csv', row.names = FALSE)
+```
+
+
+
+```{r load csv, message=FALSE}
+# Load file as data frame
+museums_df <- read.csv("museums.csv")
+```
+
+
+```{r inspect, message=FALSE}
+# Inspect data frame
+head(museums_df)
+```
+
+## Museums by Type
+
+```{r barplot, message=FALSE}
+# Create and print bar plot by type
+museum_type <- ggplot(museums_df, aes(x=Museum.Type)) +
+  geom_bar() + 
+  # customize x axis, set wrap_format() to 8
+  scale_x_discrete(labels = scales::wrap_format(8)) 
+museum_type
+```
+
+```{r barplot_museum, message=FALSE}
+# Create and print bar plot by museum vs non-museum
+museum_class <- ggplot(museums_df, aes(x=Is.Museum)) +
+  geom_bar() +
+  # rename x axis
+  scale_x_discrete(labels = c("FALSE" = "Non-Museum", "TRUE" = "Museum"))
+museum_class
+```
+
+```{r barplot_type, message=FALSE}
+# Filter data frame to select states
+museums_states <- museums_df %>%
+  filter(
+    grepl('IL|CA|NY', 
+    State..Administrative.Location.))
+museums_states
+# Create and print bar plot with facets
+museum_facet <- ggplot(museums_states, aes(x=Is.Museum)) +
+  geom_bar() +
+  facet_grid(
+    cols = vars(State..Administrative.Location.)) +
+  # rename x axis
+  scale_x_discrete(labels = c("FALSE" = "Non-Museum", "TRUE" = "Museum"))
+museum_facet
+```
+
+```{r barplot_stack, message=FALSE}
+# Create and print stacked bar plot
+museum_stacked <- 
+  ggplot(museums_df, 
+    aes(
+      x = factor(Region.Code..AAM.), 
+      fill = Is.Museum)) + 
+  geom_bar(position = "fill") + 
+  scale_x_discrete(
+    labels = c(
+      "1"="New England",
+      "2"="Mid-Atlantic", 
+      "3"="Southeastern",
+      "4"="Midwest", 
+      "5"="Mountain Plains", 
+      "6"="Western")) + 
+  scale_y_continuous(
+    labels = scales::percent_format()) +
+  scale_fill_discrete(
+    labels = c(
+      "TRUE" = "Museum", 
+      "FALSE" = "Non-Museum")) + 
+  labs(
+    title = "Museum Types by Region",
+    x = "Region",
+    y = "Percentage of Total",
+    fill = "Type"
+  )
+  
+museum_stacked
+```
+
+## Museums by Revenue
+
+```{r process, message=FALSE}
+# Filter data frame
+museums_revenue_df <- museums_df %>%
+  distinct(Legal.Name, .keep_all = TRUE) %>%
+  filter(Annual.Revenue > 0)
+
+# Filter for only small museums
+museums_small_df <- museums_revenue_df %>%
+  filter(Annual.Revenue < 1e6)
+
+# Filter for only large museums
+museums_large_df <- museums_revenue_df %>%
+  filter(Annual.Revenue > 1e9)
+```
+
+```{r histogram, message=FALSE}
+# Create and print histogram
+revenue_histogram <- 
+  ggplot(museums_small_df, 
+    aes(x = Annual.Revenue)) + 
+  geom_histogram(binwidth = 1e4) +
+  scale_x_continuous(
+    labels = scales::dollar_format())
+
+revenue_histogram
+```
+
+```{r boxplot, message=FALSE}
+# Create and print boxplot
+revenue_boxplot <- 
+  ggplot(museums_large_df, 
+    aes(
+      x = factor(Region.Code..AAM.), 
+      y = Annual.Revenue)) + 
+  geom_boxplot() + 
+  coord_cartesian(ylim = c(1e9, 3e10)) +
+  scale_y_continuous(
+    labels = function(x) paste0("$", x/1e9, "B")) +
+  scale_x_discrete(
+    labels = c(
+      "1"="New England",
+      "2"="Mid-Atlantic", 
+      "3"="Southeastern",
+      "4"="Midwest", 
+      "5"="Mountain Plains", 
+      "6"="Western"))
+
+revenue_boxplot
+```
+
+```{r mean, message=FALSE}
+# Create and print bar plot with means
+revenue_barplot <- 
+  ggplot(museums_revenue_df, 
+    aes(
+      x = factor(Region.Code..AAM.), 
+      y = Annual.Revenue)) + 
+  geom_bar(stat = "summary", fun = "mean") + 
+  scale_y_continuous(
+    labels = scales::dollar_format()) + 
+  scale_x_discrete(
+    labels = c(
+      "1"="New England",
+      "2"="Mid-Atlantic", 
+      "3"="Southeastern",
+      "4"="Midwest", 
+      "5"="Mountain Plains", 
+      "6"="Western")) +
+  labs(
+    title = "Mean Annual Revenue by Region", 
+    y = "Mean Annual Revenue", 
+    x = "Region")
+  
+revenue_barplot
+```
+
+```{r mean_errorbar, message=FALSE}
+# Calculate means and standard errors
+museums_error_df <- museums_revenue_df %>%
+  group_by(Region.Code..AAM.) %>%
+  summarize(
+    Mean.Revenue = mean(Annual.Revenue), 
+    Mean.SE = std.error(Annual.Revenue)) %>%
+  mutate(
+    SE.Min = Mean.Revenue - Mean.SE, 
+    SE.Max = Mean.Revenue + Mean.SE)
+
+# Create and print bar plot with means and standard errors
+revenue_errorbar <- 
+  ggplot(museums_error_df, 
+    aes(
+      x = factor(Region.Code..AAM.), 
+      y = Mean.Revenue)) + 
+  geom_bar(stat = "identity") +
+  geom_errorbar(
+    aes(ymin = SE.Min, ymax=SE.Max), width=0.2) +
+  scale_y_continuous(
+    labels = scales::dollar_format()) + 
+  scale_x_discrete(
+    labels = c(
+      "1"="New England",
+      "2"="Mid-Atlantic", 
+      "3"="Southeastern",
+      "4"="Midwest", 
+      "5"="Mountain Plains", 
+      "6"="Western")) +
+  labs(
+    title = "Mean Annual Revenue by Region", 
+    y = "Mean Annual Revenue", 
+    x = "Region")
+  
+revenue_errorbar
+```
