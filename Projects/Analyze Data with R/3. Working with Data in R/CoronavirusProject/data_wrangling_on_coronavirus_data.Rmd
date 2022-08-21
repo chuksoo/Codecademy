@@ -29,9 +29,9 @@ library(readr)
 setwd('C:/Users/hotty/Documents/Codecademy Dev/Codecademy/Projects/Analyze Data with R/3. Working with Data in R/CoronavirusProject')
 
 # Load the data
-covid_confirmed <- read_csv('corona_confirmed.csv')
-covid_deaths <- read_csv('corona_deaths.csv')
-covid_recovered <- read_csv('corona_recovered.csv')
+covid_confirmed <- read.csv('corona_confirmed.csv')
+covid_deaths <- read.csv('corona_deaths.csv')
+covid_recovered <- read.csv('corona_recovered.csv')
 
 # Inspect the data
 head(covid_confirmed)
