@@ -1,0 +1,129 @@
+---
+title: "The Effect of Content Released On Streaming Services"
+output: html_notebook
+---
+
+### Introduction
+
+In this document, we investigated the effect new content releases had on the value of a streaming service. To do this, we looked at two sources of data. Essentially, we wanted to see if the release of a popular title like Stranger Things had a noticeable effect on the stock price of Netflix. We also investigated whether there was a correlation between the stock prices of different streaming services. If Netflix's stock price went up, would that affect HBO or Disney plus?
+
+### The Data
+
+To answer these questions we used two R libraries. `quantmod` was used to access historical stock prices of different streaming services. The graph below shows the prices for a variety of services over the 2010s.
+
+
+```{r}
+library(quantmod)
+library(dplyr)
+library(tidyverse)
+# Getting the stock data for three companies
+getSymbols(c("NFLX","T","DIS", "AMZN"))
+
+# Merging the stock data into one data frame
+stocks <- data.frame("Netflix" = NFLX$NFLX.Close, "HBO" = T$T.Close, "Disney"=DIS$DIS.Close, "Amazon" = AMZN$AMZN.Close, "Date" = as.Date(row.names(as.data.frame(NFLX))))
+
+# Reshaping the data frame so one column contains the type of stock
+graphable <- stocks %>% gather(key = "stock", value = "value", -Date)
+
+# Graphing the stock prices
+graphable %>% ggplot() + geom_line(aes(x = Date, y= value, color = stock)) +
+  scale_color_discrete(name = "Company", labels = c("Amazon", "Disney", "Netflix", "AT&T (HBO)")) + 
+  labs(title = "Stock Prices of Streaming Services", y = "Stock Price")
+
+```
+
+The other data source we used was Google Trend data using the `gtrendsR` library. This library returns the popularity of google search terms over time. Using this data, we visualized the relative popularity of new shows and approximated their release dates.
+
+```{r}
+library(gtrendsR)
+
+#Creating the dataframe. The dataframe has values "<1" for some hits which we've changed to "0"
+trends <- gtrends(keyword=c("mandalorian", "stranger things", "game of thrones", "the marvelous mrs maisel"))
+trends_over_time <- trends$interest_over_time
+trends_over_time <- trends_over_time %>% mutate(hits = as.numeric(hits))
+trends_over_time <- trends_over_time %>% replace_na(list(hits = 0))
+
+# Plotting the trends
+trends_over_time %>% ggplot() + geom_line(aes(date, hits, color = keyword)) +
+  scale_color_discrete(name = "Show", labels = c("Game of Thrones", "The Mandalorian", "Stranger Things", "The Marvelous Mrs. Maisel" )) + 
+  labs(title = "Google Trend Data For Streaming Service Shows", y = "Hits (Normalized to be between 0 and 1000", x = "Date")
+
+```
+
+### Digging into the Trend Data
+
+We ultimately wanted to compare this trend data to the stock data, but before we did that we dug a bit more into the trend data. By adding `geo = "US"` we were able to get trend data on a state level by looking at the `interest_by_region` data frame. We also used the `maps` library to help create maps of the United States.
+
+```{r}
+library(maps)
+
+# Getting trends by state. Lowercasing the name of the state to match with the map data
+region_trends <-  gtrends(keyword=c("mandalorian", "stranger things", "game of thrones", "the marvelous mrs maisel"), geo = "US")
+states <- region_trends$interest_by_region
+states <- states %>% mutate(location = tolower(location))
+
+# Getting the map data
+states_map <- map_data("state")
+
+# Plotting the map
+states %>% ggplot(aes(map_id = location)) +
+  geom_map(aes(fill = hits), map = states_map) +
+  expand_limits(x = states_map$long, y = states_map$lat) + 
+  facet_wrap(~ keyword, nrow = 2) + 
+  labs(title = "Google Trend Data For Streaming Service Shows By State", x = "Longitude", y = "Latitude") + 
+  scale_fill_continuous(name = "Hits (Scaled to 100)")
+```
+
+Since The Marvelous Mrs. Maisel is set in New York City, it is unsurprising that it seems to be most popular in the north east. Insights like this may help companies get a better understanding of who is watching their shows. For example, Utah residents seem to love Stranger Things and The Mandalorian. Perhaps companies could look into advertising more science fiction shows in that area.
+
+### Combining Trend Data With Stock Data
+
+Now that we've looked into the Google Trend data a bit more, we thought we would turn back to the financial data. We plotted each company's stock price along with the popularity of their respective shows. Note that we've adjusted the time frame a bit &mdash; even though we have stock data going back to 2010, many of these shows didn't exist at that time.
+
+```{r}
+# Filtering the stock data by date
+recent_stocks <- stocks %>% filter(Date > as.Date("2015-06-01"))
+
+#Plotting stock and trends on the same graph for Netflix and Stranger Things. Note that we adjust the scale of the Trends axis
+ggplot() + geom_line(recent_stocks, mapping = aes(x = Date, y= NFLX.Close, color = "Price of Netflix Stock")) + 
+  geom_line(filter(trends_over_time, keyword == "stranger things"), mapping = aes(as.Date(date), hits*6, color = "Stranger Things Google Trends Hits")) +
+  scale_y_continuous(name = "Price", sec.axis = sec_axis(~./6, name="Google Trends Hits")) + 
+  labs(title = "Neflix Stock and Google Trends")
+
+# Plotting AT&T (HBO) Stock and Google Trends for Game of Thrones on the same graph
+ggplot() + geom_line(recent_stocks, mapping = aes(x = Date, y= T.Close, color = "Price of AT&T (HBO) Stock")) + 
+  geom_line(filter(trends_over_time, keyword == "game of thrones"), mapping = aes(as.Date(date), hits, color = "Game of Thrones Google Trends Hits")) +
+  scale_y_continuous(name = "Price", sec.axis = sec_axis(~., name="Google Trends Hits")) + 
+  labs(title = "AT&T (HBO) Stock and Google Trends")
+```
+
+It seems like the release of Stranger Things in 2018 could have had a substantial impact on the company &mdash; stock prices went up shortly after. However, the release schedule of Game of Thrones seems to have had less of an impact on its company's value. Perhaps because HBO is part of a larger company (AT&T), HBO's success doesn't impact the larger business' sucess to the same degree.
+
+### Checking For Linear Regression
+
+Finally, we wanted to see if there was a correlation between any of these services. Perhaps if Netflix's stock rises, HBO's stock will fall. We created a plot with Netflix's stock on the x axis and Disney's stock on the y axis. Note that we only used data points starting from September 2019 since that was the month of Disney Plus' launch.
+
+We also added a LOESS smoother to visualize the regression line.
+
+```{r}
+# Filtering the stock data
+stocks_since_disney_plus <- stocks %>% filter(Date > as.Date("2019-09-01"))
+
+# Plotting Netflix stock vs Disney Stock and adding a LOESS smoother
+stocks_since_disney_plus %>% ggplot(aes(x = NFLX.Close, y = DIS.Close)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_smooth(se = FALSE, color = "red") + 
+  labs(title = "Netflix Stock vs Disney Stock", x = "Netflix Stock", y = "Disney Stock")
+
+```
+
+As you can see, this relationship does not look linear. This is unsurprising &mdash; it would have been pretty amazing if the stock prices of two companies were so closely correlated. Perhaps a multiple linear regression model or a model that considers more factors would be more effective at predicting stock prices.
+
+### Conclusion and Further Steps
+
+In this project we were able to compare and contrast different methods for evaluating the success of a streaming service. Google Trends help identify when a streaming platform has a buzz-worthy event. Stock prices are a good indicator of the value of a company. But ultimately, these two data sets seem to be too general to reveal any new insights when used together. However, we began to uncover some interesting information when we dug deeper into specific data sets. When we looked at specific region data we were able to get a better sense of different demographics and their interests.
+
+If we were to continue this work there are a few different routes we could take. First, there are more data frames in the Google Trends data that might be useful. In particular, we had our eye on the `related_queries` data frame. This data frame provides a list of related search terms. For example, `"baby yoda"` is commonly searched alongside `"The Mandalorian"`. We could perhaps look into using some Natural Language Processing libraries to find insights about these related terms.
+
+Finally, we could look for more data sets. Stock data didn't seem to match particularly well with Google Trends data. However, maybe there is some publically available data that would work better. For example, if these streaming services release data about the number of viewers that watch a show or movie, perhaps we could build a linear regression model that tries to predict total number of views based on Google Trends.
