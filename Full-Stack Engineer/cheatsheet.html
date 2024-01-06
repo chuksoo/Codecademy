@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Common CSS Properties</title>
+        <link href="./style.css" type="text/css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header>
+            <h1>Common CSS Properties</h1>
+            <h2>Cheat Sheet</h2>
+        </header>
+        
+        <article>
+            <h3>Box Properties</h3>
+            <table>
+                <tr>
+                    <th scope="col" class="property">Property</th>
+                    <th scope="col" class="description">Description</th>
+                    <th scope="col" class="value">Value(s)</th>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>background-color:</code></td>
+                    <td class="descriptions">Sets the background color of an element.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> ex. red</li>
+                            <li><span class="value-type">Hex -</span> #bbff00, #bf0, #bbff00ff, #bfof</li>
+                            <li><span class="value-type">RGB/RGBA -</span> rgb(255, 255, 128), rgba(117, 190, 218, 0.75)</li>
+                            <li><span class="value-type">HSL/HSLA -</span> hsl(50, 33%, 25%), hsla(50, 33%, 25%, 0.75)</li>
+                            <li><span class="value-type">Special -</span> currentcolor, transparent</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>background-image:</code></td>
+                    <td class="descriptions">Sets one or more background images on an element.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> none</li>
+                            <li><span class="value-type">Image -</span> url(), &ltgradient&rt, element(), image(), cross-fade(), image-set()</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>border:</code></td>
+                    <td class="descriptions">Shorthand CSS property sets an element's border. It sets the values of border-width, border-style, and border-color. Order does not matter.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Style -</span> solid, dotted, dashed, etc.</li>
+                            <li><span class="value-type">Width -</span> 2px</li>
+                            <li><span class="value-type">Color -</span> Keyword, Hex, RGB, etc.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>display:</code></td>
+                    <td class="descriptions">
+                        <p>The display CSS property sets whether an element is treated as a block or inline box and the layout used for its children, such as flow layout, 
+                            grid or flex.</p>
+                        <p>Formally, the display property sets an element's inner and outer display types. The outer type sets an element's participation in flow layout; 
+                            the inner type sets the layout of children. Some values of display are fully defined in their own individual specifications; for example the detail 
+                            of what happens when display:</code> flex is declared is defined in the CSS Flexible Box Model specification.</p>
+                    </td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Precomposed -</span> block, flex, grid, flow-root, inline(-block, -flex, -grid)</li>
+                            <li><span class="value-type">Box Generation -</span> none, contents</li>
+                            <li><span class="value-type">Multi-keyword -</span> (block, inline) (flow, flow-root, flex, grid)</li>
+                            <li><span class="value-type">Other -</span> table, table-row, list-item</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>float:</code></td>
+                    <td class="descriptions">Places an element on the left or right side of its container, allowing text and inline elements to wrap around it. The element is removed from the normal 
+                        flow of the page, though still remaining a part of the flow (in contrast to absolute positioning).</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> left, right, none, inline-start, inline-end</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>height:</code></td>
+                    <td class="descriptions">specifies the height of an element. By default, the property defines the height of the content area. If box-sizing is set to border-box, however, it instead 
+                        determines the height of the border area.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Length -</span> 120px, 10em, 100vh</li>
+                            <li><span class="value-type">Percentage -</span> 75%</li>
+                            <li><span class="value-type">Keyword -</span> max-content, min-content, fit-content(20em), auto</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>justify-self:</code></td>
+                    <td class="descriptions">Sets the way a box is justified inside its alignment container along the appropriate axis.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Basic -</span> auto, normal, stretch</li>
+                            <li><span class="value-type">Positional -</span> center, start, end, left, right, etc.</li>
+                            <li><span class="value-type">Baseline -</span> baseline, first baseline, last baseline</li>
+                            <li><span class="value-type">Overflow -</span> safe center, unsafe center</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>margin:</code></td>
+                    <td class="descriptions">Shorthand property sets the margin area on all four sides of an element in a clockwise direction from the Top.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">4-sides -</span> margin:</code> 1em; margin:</code> -3px;</li>
+                            <li><span class="value-type">T/B+L/R -</span> margin:</code> 5% auto;</li>
+                            <li><span class="value-type">T+L/R+B -</span> margin:</code> 1em auto 2em;</li>
+                            <li><span class="value-type">T+B+L+R -</span> margin:</code> 2px 1em 0 auto;</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>max/min-height/width:</code></td>
+                    <td class="descriptions">Sets the maximum height/width of an element. It prevents the used value of the height/width property from becoming larger/smaller than the value 
+                        specified for max/min-height/width.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Length -</span> 3.5em, 10px</li>
+                            <li><span class="value-type">Percentage -</span> 75%</li>
+                            <li><span class="value-type">Keyword -</span> none, max-content, min-content, fit-content(20em)</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>opacity:</code></td>
+                    <td class="descriptions">Sets the opacity of an element. Opacity is the degree to which content behind an element is hidden, and is the opposite of transparency.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Alpha-value -</span> number between 0 and 1</li>
+                            <li><span class="value-type">Percentage -</span> 75%</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>overflow:</code></td>
+                    <td class="descriptions">Shorthand property sets the desired behavior when content does not fit in the parent element box (overflows) in the horizontal and/or vertical 
+                        direction.  Shorthand for overflow-x:</code> and overflow-y:</code></td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> visible, hidden, clip, scroll, auto, hidden visible</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>padding:</code></td>
+                    <td class="descriptions">Shorthand property sets the padding area on all four sides of an element in a clockwise direction from the Top.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">4-sides -</span> margin:</code> 1em; margin:</code> -3px;</li>
+                            <li><span class="value-type">T/B+L/R -</span> margin:</code> 5% auto;</li>
+                            <li><span class="value-type">T+L/R+B -</span> margin:</code> 1em auto 2em;</li>
+                            <li><span class="value-type">T+B+L+R -</span> margin:</code> 2px 1em 0 auto;</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>position:</code></td>
+                    <td class="descriptions">Sets how an element is positioned in a document. The top, right, bottom, and left properties determine the final 
+                        location of positioned elements.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> static, relative, absolute, fixed, sticky</li>
+                            <li><span class="value-type">Properties -</span> top:</code> 40px, bottom:</code> 40px, left:</code> 40px, right:</code>40px</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>visibility:</code></td>
+                    <td class="descriptions">Shows or hides an element without changing the layout of a document. The property can also hide rows or columns in a &lttable&rt.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> visible, hidden, collapse</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>width:</code></td>
+                    <td class="descriptions">Specifies the width of an element. By default, the property defines the width of the content area. If box-sizing is set to border-box, however, it instead 
+                        determines the width of the border area.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Length -</span> 120px, 10em, 100vh</li>
+                            <li><span class="value-type">Percentage -</span> 75%</li>
+                            <li><span class="value-type">Keyword -</span max-content, min-content, fit-content(20em), auto</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>z-index:</code></td>
+                    <td class="descriptions">Sets the z-order of a positioned element and its descendants or flex items. Overlapping elements with a larger z-index cover those with a smaller one.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> auto</li>
+                            <li><span class="value-type">Integer -</span> 0, 3, 289, -1 (negative values to lower the priority)</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </article>
+
+        <article>
+            <h3>FlexBox and Grid</h3>
+            <table>
+                <tr>
+                    <th scope="col" class="property">Property</th>
+                    <th scope="col" class="description">Description</th>
+                    <th scope="col" class="value">Value(s)</th>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>align-content:</code></td>
+                    <td class="descriptions">Sets the distribution of space between and around content items along a flexbox's cross-axis or a grid's 
+                        block axis.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Positional -</span> center, start, end, flex-start, flex-end</li>
+                            <li><span class="value-type">Normal -</span> normal</li>
+                            <li><span class="value-type">Baseline -</span> baseline, first baseline, last baseline</li>
+                            <li><span class="value-type">Distributed -</span> space-between, space-around, space-evenly, stretch</li>
+                            <li><span class="value-type">Overflow -</span> safe center, unsafe center</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>align-items</code></td>
+                    <td class="descriptions">Sets the align-self value on all direct children as a group. In Flexbox, it controls the alignment of items on 
+                        the Cross Axis. In Grid Layout, it controls the alignment of items on the Block Axis within their grid area.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Basic -</span> normal, stretch</li>
+                            <li><span class="value-type">Positional -</span> center, start, end, flex-start, flex-end, self-start, self-end</li>
+                            <li><span class="value-type">Baseline -</span> baseline, first baseline, last baseline, safe center, unsafe center</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>align-self</code></td>
+                    <td class="descriptions">Overrides a grid or flex item's align-items value. In Grid, it aligns the item inside the grid area. In Flexbox, 
+                        it aligns the item on the cross axis.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> auto, normal</li>
+                            <li><span class="value-type">Positional -</span> center, start, end, flex-start, flex-end, self-start, self-end</li>
+                            <li><span class="value-type">Baseline -</span> baseline, first baseline, last baseline, stretch</li>
+                            <li><span class="value-type">Overflow -</span> safe center, unsafe center</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>align-tracks</code></td>
+                    <td class="descriptions">Sets the alignment in the masonry axis for grid containers that have masonry in their block axis.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> start, space-between, center, (start, center, end)</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex:</code></td>
+                    <td class="descriptions">Shorthand property sets how a flex item will grow or shrink to fit the space available in its flex container.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> auto, initial, none</li>
+                            <li><span class="value-type">flex-grow -</span> flex: 2</li>
+                            <li><span class="value-type">flex-basis -</span> flex: 10px, flex: 30%, flex: min-content</li>
+                            <li><span class="value-type">flex-grow/basis -</span> flex: 1 20px</li>
+                            <li><span class="value-type">flex-grow/shrink -</span> flex: 1 2</li>
+                            <li><span class="value-type">flex-grow/shrink/basis -</span> flex: 2 1 30px</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex-basis</code></td>
+                    <td class="descriptions">Sets the initial main size of a flex item. It sets the size of the content box unless otherwise set with box-sizing.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Width -</span> 10em, 3px, 50%, auto</li>
+                            <li><span class="value-type">Intrinsic sizing -</span> max-content, min-content, fit-content</li>
+                            <li><span class="value-type">Automatic -</span> content</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex-direction</code></td>
+                    <td class="descriptions">Sets how flex items are placed in the flex container defining the main axis and the direction (normal or reversed).</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">normal -</span> row, column</li>
+                            <li><span class="value-type">reversed -</span> row-reverse, column-reverse</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex-flow:</code></td>
+                    <td class="descriptions"> Shorthand property specifies the direction of a flex container, as well as its wrapping behavior.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">flex-direction -</span> row, roe-reverse, column, column-reverse</li>
+                            <li><span class="value-type">flex-wrap -</span> nowrap, wrap, warp-reverse</li>
+                            <li><span class="value-type">flex-direction/wrap -</span> row nowrap, column wrap, column-reverse wrap-reverse</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex-grow:</code></td>
+                    <td class="descriptions"> Sets the flex grow factor, which specifies how much of the flex container's remaining space should be assigned to the flex item's main size.
+                        When the flex-container's main size is larger than the combined main size's of the flex items, the extra space is distributed among the flex items, with each item 
+                        growth being their growth factor value as a proportion of the sum total of all the container's items' flex grow factors.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Number values -</span> 3, 0.6</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex-shrink:</code></td>
+                    <td class="descriptions"> Sets the flex shrink factor of a flex item. If the size of all flex items is larger than the flex container, items shrink to fit according 
+                        to flex-shrink. In use, flex-shrink is used alongside the other flex properties flex-grow and flex-basis, and normally defined using the flex shorthand.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Number values -</span> 3, 0.6</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>flex-wrap;</code></td>
+                    <td class="descriptions"> Sets whether flex items are forced onto one line or can wrap onto multiple lines. If wrapping is allowed, it sets the direction that lines are 
+                        stacked.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> wrap, nowrap, wrap-reverse</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>justify-content:</code></td>
+                    <td class="descriptions"> Defines how the browser distributes space between and around content items along the main-axis of a flex container, and the inline axis of a grid 
+                        container.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Positional -</span> center, start, end, flex-start, flex-end, left, right</li>
+                            <li><span class="value-type">Normal -</span> normal</li>
+                            <li><span class="value-type">Distributed -</span> space-between, space-around, space-evenly, stretch</li>
+                            <li><span class="value-type">Overflow -</span> safe center, unsafe center</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>justify-tracks:</code></td>
+                    <td class="descriptions"> Sets the alignment in the masonry axis for grid containers that have masonry in their inline axis.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> start, space-between, center, (start, center, end)</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>grid:</code></td>
+                    <td class="descriptions"> Shorthand property that sets all of the explicit and implicit grid properties in a single declaration.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">grid-template</li>
+                            <li><span class="value-type">grid-template-rows</li>
+                            <li><span class="value-type">grid-template-columns</li>
+                            <li><span class="value-type">Global</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>grid-area:</code></td>
+                    <td class="descriptions"> Shorthand property specifies a grid item's size and location within a grid by contributing a line, a span, or nothing (automatic) to its grid placement, 
+                        thereby specifying the edges of its grid area.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword: auto...auto / auto / auto / auto</li>
+                            <li><span class="value-type">Custom-ident values: some-grid-area, some-grid-area / another-grid-area</li>
+                            <li><span class="value-type">Span and Integer values: 2 / span 3</li>
+                            <li><span class="value-type">Global</li>
+                    </td>
+                </tr>
+                
+            </table>
+        </article>
+
+        <article>
+            <h3>Text Properties</h3>
+            <table>
+                <tr>
+                    <th scope="col" class="property">Property</th>
+                    <th scope="col" class="description">Description</th>
+                    <th scope="col" class="value">Value(s)</th>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>color:</code></td>
+                    <td class="descriptions">Sets the foreground color value of an element's text and text decorations, and sets the currentcolor value. currentcolor may be used as an indirect 
+                        value on other properties and is the default for other color properties, such as border-color.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> ex. red</li>
+                            <li><span class="value-type">Hex -</span> #bbff00, #bf0, #bbff00ff, #bfof</li>
+                            <li><span class="value-type">RGB/RGBA -</span> rgb(255, 255, 128), rgba(117, 190, 218, 0.75)</li>
+                            <li><span class="value-type">HSL/HSLA -</span> hsl(50, 33%, 25%), hsla(50, 33%, 25%, 0.75)</li>
+                            <li><span class="value-type">Special -</span> currentcolor, transparent</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>font-family:</code></td>
+                    <td class="descriptions">Specifies a prioritized list of one or more font family names and/or generic family names for the selected element.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Family-name -</span> Times, Helvetica 'Comic Sans MS'</li>
+                            <li><span class="value-type">Generic-name -</span> serif, sans-serif, monospace, cursive, etc.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>font-size:</code></td>
+                    <td class="descriptions">Sets the size of the font. Changing the font size also updates the sizes of the font size-relative &ltlength&rt units, such as em, ex, and so forth.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Absolute-size -</span> xx-small, small, medium, large, xxx-large</li>
+                            <li><span class="value-type">Relative-size -</span> smaller, larger</li>
+                            <li><span class="value-type">Length -</span> 12px, 0.8em</li>
+                            <li><span class="value-type">Percentage -</span> 80%</li>
+                            <li><span class="value-type">Math -</span> math</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>font-style:</code></td>
+                    <td class="descriptions">Sets whether a font should be styled with a normal, italic, or oblique face from its font-family.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> normal, italic, oblique, oblique 10deg</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>font-weight:</code></td>
+                    <td class="descriptions">Sets the weight (or boldness) of the font. The weights available depend on the font-family that is currently set.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> normal, bold</li>
+                            <li><span class="value-type">Relative-keyword -</span> lighter, bolder</li>
+                            <li><span class="value-type">Numeric -</span> number from 1 to 1000</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>line-height:</code></td>
+                    <td class="descriptions">Sets the height of a line box. It's commonly used to set the distance between lines of text. On block-level elements, it specifies the minimum height of 
+                        line boxes within the element. On non-replaced inline elements, it specifies the height that is used to calculate line box height.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> normal</li>
+                            <li><span class="value-type">Unitless -</span> 3.5</li>
+                            <li><span class="value-type">Length -</span> 3em</li>
+                            <li><span class="value-type">Percentage -</span> 34%</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>list-style:</code></td>
+                    <td class="descriptions"> Shorthand property allows you to set all the list style properties (image, position, and type) at once</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Type -</span> disc, circle, square, "-", etc</li>
+                            <li><span class="value-type">Image -</span> none, url("../img/shape.png") &ltgradient&rt</li>
+                            <li><span class="value-type">Position -</span> inside, outside</li>
+                            <li><span class="value-type">Keyword -</span> none</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>text-align:</code></td>
+                    <td class="descriptions"> Sets the horizontal alignment of the inline-level content inside a block element or table-cell box. This means it works like 
+                        vertical-align but in the horizontal direction.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> start, end, left, right, center, justify, justify-all, match-parent</li>
+                            <li><span class="value-type">Character-based -</span> ".", "." center</li>
+                            <li><span class="value-type">Block alignment -</span> -moz-center, -webkit-center</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>text-transform:</code></td>
+                    <td class="descriptions"> Specifies how to capitalize an element's text. It can be used to make text appear in all-uppercase or all-lowercase, or with each word 
+                        capitalized. It also can help improve legibility for ruby.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> none, capitalize, uppercase, lowercase, full-width, full-size-kana</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>verticlal-align:</code></td>
+                    <td class="descriptions"> Sets vertical alignment of an inline, inline-block or table-cell box.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> baseline, sub, super, text-top, text-bottom, middle, top, bottom</li>
+                            <li><span class="value-type">Length -</span> 10em, 4px</li>
+                            <li><span class="value-type">Percentage -</span> 20%</li>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"> <code>word-spacing:</code></td>
+                    <td class="descriptions"> Sets the length of space between words and between tags.</td>
+                    <td class="values">
+                        <ul>
+                            <li><span class="value-type">Keyword -</span> normal</li>
+                            <li><span class="value-type">Length -</span> 3px, 0.3em</li>
+                    </td>
+                </tr>
+                
+            </table>
+        </article>
+
+    </body>
+</html>

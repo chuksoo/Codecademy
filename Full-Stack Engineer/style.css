@@ -1,0 +1,135 @@
+html {
+    background-color: #16171d;
+    min-width: 800px;
+}
+
+header {
+    background-image: url(./resources/Header-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 50px;
+    margin-bottom: 100px;
+
+
+    position: 0 auto;
+
+    margin-left: -0.4vw;
+    margin-right: -0.25vw;
+    margin-top: -0.25vw;
+    box-shadow: 0px 0px 30px 30px #0000006e;
+}
+
+h1,
+h2,
+h3 {
+    text-align: center;
+    color: #9C93F9;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+h1 {
+    font-size: 60pt;
+    font-weight: 700;
+    margin-bottom: -1vw;
+    margin-left: 10%;
+    margin-right: 10%;
+    color: #DC79BD;
+    border-top: dashed 1px #DC79BD;
+    border-bottom: dashed 1px #DC79BD;
+
+    
+    text-decoration-thickness: 1px;
+}
+
+h2 {
+    font-size: 40pt;
+    color: #2DC570;
+}
+
+h3 {
+    font-size: 30pt;
+}
+
+table {
+    width: 65%;
+    min-width: 600px;
+    max-width: 1500px;
+    border: 3px solid #16171d;
+    text-align: justify;
+    font-family: 'Consolas', 'Courier New', monospace;
+    margin: auto;
+    background-color: #282A36;
+    box-shadow: 0px 0px 80px 30px black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border-top: 5px solid #16171d;
+    border-left: 2px solid #16171d;
+    padding: 5px;
+}
+
+th[scope = col] {
+    font-size: 24px;
+    text-align: center;
+    background-color: #21222C;
+    color: #9C93F9;
+}
+
+th[scope = col].description {
+    min-width: 300px;
+}
+
+th[scope = col].property {
+    width: auto;
+    white-space: nowrap;
+}
+
+th[scope = col].value {
+    min-width: 250px;
+}
+
+th[scope = row] {
+    white-space: nowrap;
+    width: min-content;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    font-weight: lighter;
+    color: #2DC570;
+}
+
+ul {
+    text-align: left;
+    list-style: square outside;
+}
+
+li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+code {
+    padding: 5px;
+    background-color: black;
+}
+
+.value-type {
+    font-weight: bold;
+    color: #DC79BD;
+}
+
+.descriptions {
+    line-height: 1.5;
+    font-size: 10pt;
+    vertical-align: top;
+    color: #fbf5ff;
+}
+
+.values {
+    font-size: 12px;
+    padding-left: 0px;
+    padding-right: 20px;
+    color: #f3de64;
+}
+
+
