@@ -58,6 +58,21 @@ console.log(typeof newVariable);
 newVariable = 1
 console.log(typeof newVariable);
 
+// 
+let person = {
+    mane: 'Chuks',
+    age: 40
+};
+
+// Dot Notation
+person.name = 'John'
+
+// Bracket Notation
+let selection = 'name';
+person[selection] = 'Mary';
+
+console.log(person.name)
+
 
 
 
