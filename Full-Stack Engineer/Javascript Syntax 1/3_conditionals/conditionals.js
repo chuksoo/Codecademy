@@ -133,6 +133,7 @@ if (groceryItem === "tomato") {
   console.log("Invalid item");
 }
 
+// Alternative using Switch keyword
 switch (
   groceryItem // switch statement that prints 'Papayas are $1.29'
 ) {
@@ -165,4 +166,22 @@ switch (athleteFinalPosition) {
   default:
     console.log("No medal awarded.");
     break;
+}
+
+// calculateWeight using Switch keyword
+function calculateWeight(earthWeight, planet) {
+  switch (planet) {
+    case "Mercury":
+      return earthWeight * 0.378;
+    case "Venus":
+      return earthWeight * 0.907;
+    case "Mars":
+      return earthWeight * 0.377;
+    case "Jupiter":
+      return earthWeight * 2.36;
+    case "Saturn":
+      return earthWeight * 0.916;
+    default:
+      return "Invalid Planet Entry. Try: Mercury, Venus, Mars, Jupiter, or Saturn.";
+  }
 }
