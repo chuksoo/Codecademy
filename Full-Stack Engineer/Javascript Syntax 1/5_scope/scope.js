@@ -9,12 +9,12 @@ const logCitySkyline = () => {
 console.log(logCitySkyline());
 
 // Global Scope
-const satellite = "The Moon";
-const galaxy = "The Milky Way";
-const stars = "North Star";
+const satellites = "The Moon";
+const galaxys = "The Milky Way";
+const starsz = "North Star";
 
 const callMyNightSky = () => {
-  return "Night Sky: " + satellite + ", " + stars + ", and " + galaxy;
+  return "Night Sky: " + satellites + ", " + starsz + ", and " + galaxys;
 };
 
 console.log(callMyNightSky());
@@ -33,16 +33,16 @@ const satellite = "The Moon";
 const galaxy = "The Milky Way";
 let stars = "North Star";
 
-const callMyNightSky = () => {
-  stars = "Sirius";
-  return "Night Sky: " + satellite + ", " + stars + ", " + galaxy;
+const callMyNightSky_ = () => {
+stars = "Sirius";
+return "Night Sky: " + satellite + ", " + stars + ", " + galaxy;
 };
 
 console.log(callMyNightSky());
 console.log(stars);
 
 // Practice Good Scoping
-const logVisibleLightWaves = () => {
+const logVisibleLightWavesz = () => {
   let lightWaves = "Moonlight";
   let region = "The Arctic";
   // Add if statement here:
@@ -53,23 +53,5 @@ const logVisibleLightWaves = () => {
   console.log(lightWaves);
 };
 
-logVisibleLightWaves();
+logVisibleLightWavesz();
 
-//
-
-function calculateWeight(earthWeight, planet) {
-  switch (planet) {
-    case "Mercury":
-      return earthWeight * 0.378;
-    case "Venus":
-      return earthWeight * 0.907;
-    case "Mars":
-      return earthWeight * 0.377;
-    case "Jupiter":
-      return earthWeight * 2.36;
-    case "Saturn":
-      return earthWeight * 0.916;
-    default:
-      return "Invalid Planet Entry. Try: Mercury, Venus, Mars, Jupiter, or Saturn.";
-  }
-}
